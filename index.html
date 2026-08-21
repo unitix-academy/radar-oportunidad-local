@@ -1,384 +1,4284 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RADAR DE OPORTUNIDAD LOCAL™</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<meta
+name="description"
+content="RADAR DE OPORTUNIDAD LOCAL™ - Diagnóstico estratégico y competitivo de negocios locales.">
+
+<title>
+RADAR DE OPORTUNIDAD LOCAL™
+</title>
+
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 
 <style>
 
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  margin: 0;
-  padding: 20px;
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+    box-sizing: border-box;
 }
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+
+    margin: 0;
+
+    font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+    background:
+    #f4f6f8;
+
+    color:
+    #1f2937;
+
+}
+
+
+/* =====================================================
+   CONTENEDOR
+===================================================== */
 
 .container {
-  max-width: 900px;
-  margin: auto;
+
+    width:
+    min(1100px, 92%);
+
+    margin:
+    auto;
+
 }
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+header {
+
+    background:
+    linear-gradient(
+        135deg,
+        #111827,
+        #1f2937
+    );
+
+    color:
+    white;
+
+    padding:
+    55px 0 45px;
+
+    text-align:
+    center;
+
+}
+
+
+header h1 {
+
+    margin:
+    0 0 15px;
+
+    font-size:
+    clamp(
+        30px,
+        6vw,
+        52px
+    );
+
+}
+
+
+header p {
+
+    max-width:
+    760px;
+
+    margin:
+    auto;
+
+    color:
+    #d1d5db;
+
+    font-size:
+    17px;
+
+    line-height:
+    1.6;
+
+}
+
+
+.badge {
+
+    display:
+    inline-block;
+
+    margin-bottom:
+    15px;
+
+    padding:
+    7px 14px;
+
+    border-radius:
+    30px;
+
+    background:
+    rgba(
+        255,
+        255,
+        255,
+        0.1
+    );
+
+    border:
+    1px solid
+    rgba(
+        255,
+        255,
+        255,
+        0.2
+    );
+
+    font-size:
+    13px;
+
+}
+
+
+/* =====================================================
+   SECCIONES
+===================================================== */
+
+main {
+
+    padding:
+    35px 0 70px;
+
+}
+
 
 .card {
-  background: white;
-  padding: 25px;
-  margin-bottom: 20px;
-  border-radius: 15px;
+
+    background:
+    white;
+
+    border-radius:
+    18px;
+
+    padding:
+    clamp(
+        20px,
+        4vw,
+        32px
+    );
+
+    margin-bottom:
+    24px;
+
+    box-shadow:
+    0 10px 35px
+    rgba(
+        0,
+        0,
+        0,
+        0.06
+    );
+
+    border:
+    1px solid
+    #e5e7eb;
+
 }
 
-h1 {
-  margin-top: 0;
-}
-
-input, textarea, select {
-  width: 100%;
-  padding: 12px;
-  margin-top: 8px;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-}
-
-button {
-  padding: 14px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-right: 10px;
-  margin-bottom: 10px;
-}
-
-.primary {
-  background: black;
-  color: white;
-}
 
 .hidden {
-  display: none;
+
+    display:
+    none !important;
+
 }
 
-pre {
-  white-space: pre-wrap;
-  background: #111;
-  color: #00ff99;
-  padding: 15px;
-  border-radius: 10px;
-  max-height: 400px;
-  overflow: auto;
+
+/* =====================================================
+   TITULOS
+===================================================== */
+
+h2 {
+
+    margin-top:
+    0;
+
+    color:
+    #111827;
+
 }
+
+
+h3 {
+
+    color:
+    #374151;
+
+}
+
+
+.section-label {
+
+    display:
+    inline-block;
+
+    font-size:
+    12px;
+
+    font-weight:
+    bold;
+
+    letter-spacing:
+    1px;
+
+    color:
+    #6b7280;
+
+    margin-bottom:
+    10px;
+
+}
+
+
+/* =====================================================
+   FORMULARIOS
+===================================================== */
+
+label {
+
+    display:
+    block;
+
+    font-weight:
+    bold;
+
+    margin-bottom:
+    8px;
+
+    color:
+    #374151;
+
+}
+
+
+input,
+textarea {
+
+    width:
+    100%;
+
+    padding:
+    14px;
+
+    border:
+    1px solid
+    #d1d5db;
+
+    border-radius:
+    10px;
+
+    font-size:
+    15px;
+
+    font-family:
+    inherit;
+
+    margin-bottom:
+    20px;
+
+    transition:
+    0.2s;
+
+}
+
+
+textarea {
+
+    resize:
+    vertical;
+
+    min-height:
+    130px;
+
+}
+
+
+input:focus,
+textarea:focus {
+
+    outline:
+    none;
+
+    border-color:
+    #2563eb;
+
+    box-shadow:
+    0 0 0 3px
+    rgba(
+        37,
+        99,
+        235,
+        0.1
+    );
+
+}
+
+
+/* =====================================================
+   BOTONES
+===================================================== */
+
+button {
+
+    border:
+    none;
+
+    border-radius:
+    10px;
+
+    padding:
+    13px 18px;
+
+    font-size:
+    15px;
+
+    font-weight:
+    bold;
+
+    cursor:
+    pointer;
+
+    margin:
+    5px 5px 5px 0;
+
+    transition:
+    0.2s;
+
+}
+
+
+button:hover {
+
+    transform:
+    translateY(-1px);
+
+}
+
+
+.primary {
+
+    background:
+    #2563eb;
+
+    color:
+    white;
+
+}
+
+
+.primary:hover {
+
+    background:
+    #1d4ed8;
+
+}
+
+
+.secondary {
+
+    background:
+    #e5e7eb;
+
+    color:
+    #111827;
+
+}
+
+
+.secondary:hover {
+
+    background:
+    #d1d5db;
+
+}
+
+
+.danger {
+
+    background:
+    #fee2e2;
+
+    color:
+    #b91c1c;
+
+}
+
+
+.danger:hover {
+
+    background:
+    #fecaca;
+
+}
+
+
+.ai-button {
+
+    background:
+    #111827;
+
+    color:
+    white;
+
+}
+
+
+.ai-button:hover {
+
+    background:
+    #374151;
+
+}
+
+
+/* =====================================================
+   GRID
+===================================================== */
+
+.grid {
+
+    display:
+    grid;
+
+    grid-template-columns:
+    repeat(
+        auto-fit,
+        minmax(
+            240px,
+            1fr
+        )
+    );
+
+    gap:
+    18px;
+
+}
+
+
+.metric {
+
+    background:
+    #f9fafb;
+
+    border:
+    1px solid
+    #e5e7eb;
+
+    border-radius:
+    14px;
+
+    padding:
+    20px;
+
+}
+
+
+.metric small {
+
+    display:
+    block;
+
+    color:
+    #6b7280;
+
+    margin-bottom:
+    8px;
+
+}
+
+
+.metric strong {
+
+    display:
+    block;
+
+    font-size:
+    19px;
+
+    color:
+    #111827;
+
+    line-height:
+    1.4;
+
+}
+
+
+/* =====================================================
+   SCORE
+===================================================== */
+
+.big-score {
+
+    font-size:
+    clamp(
+        55px,
+        12vw,
+        90px
+    );
+
+    font-weight:
+    bold;
+
+    text-align:
+    center;
+
+    color:
+    #2563eb;
+
+    line-height:
+    1;
+
+}
+
+
+.score-subtitle {
+
+    text-align:
+    center;
+
+    color:
+    #6b7280;
+
+    margin-top:
+    10px;
+
+}
+
+
+/* =====================================================
+   RESULTADOS
+===================================================== */
+
+.result-box {
+
+    background:
+    #f9fafb;
+
+    border-left:
+    4px solid
+    #2563eb;
+
+    padding:
+    18px;
+
+    border-radius:
+    10px;
+
+    line-height:
+    1.7;
+
+    white-space:
+    pre-wrap;
+
+}
+
+
+.alert {
+
+    padding:
+    15px;
+
+    border-radius:
+    10px;
+
+    margin-top:
+    15px;
+
+}
+
+
+.alert-error {
+
+    background:
+    #fee2e2;
+
+    color:
+    #991b1b;
+
+}
+
+
+.alert-info {
+
+    background:
+    #dbeafe;
+
+    color:
+    #1e40af;
+
+}
+
+
+/* =====================================================
+   PROMPT
+===================================================== */
+
+pre {
+
+    white-space:
+    pre-wrap;
+
+    word-wrap:
+    break-word;
+
+    background:
+    #111827;
+
+    color:
+    #e5e7eb;
+
+    padding:
+    18px;
+
+    border-radius:
+    12px;
+
+    max-height:
+    450px;
+
+    overflow:
+    auto;
+
+    font-size:
+    12px;
+
+    line-height:
+    1.6;
+
+}
+
+
+/* =====================================================
+   DIAGNOSTICOS GUARDADOS
+===================================================== */
+
+.saved-item {
+
+    border:
+    1px solid
+    #e5e7eb;
+
+    border-radius:
+    12px;
+
+    padding:
+    18px;
+
+    margin-bottom:
+    12px;
+
+    background:
+    #fafafa;
+
+}
+
+
+.saved-item strong {
+
+    font-size:
+    17px;
+
+}
+
+
+.saved-date {
+
+    color:
+    #6b7280;
+
+    font-size:
+    13px;
+
+    margin-top:
+    5px;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+
+    background:
+    #111827;
+
+    color:
+    #9ca3af;
+
+    padding:
+    35px 0;
+
+    text-align:
+    center;
+
+    font-size:
+    13px;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media
+(max-width: 600px) {
+
+    header {
+
+        padding:
+        40px 0 35px;
+
+    }
+
+
+    button {
+
+        width:
+        100%;
+
+        margin:
+        6px 0;
+
+    }
+
+
+    .card {
+
+        border-radius:
+        14px;
+
+    }
+
+}
+
+
+/* V3: opciones inteligentes del Territory Lab */
+.ai-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:10px 0 20px}
+.ai-option{background:#f7f8fc;border:1px solid #e3e6f0;border-radius:12px;padding:14px;text-align:left;cursor:pointer;font:inherit;line-height:1.45}
+.ai-option:hover,.ai-option.selected{border-color:#5b5ce2;background:#f0f1ff}
+.option-label{display:block;font-size:.75rem;font-weight:700;letter-spacing:.05em;margin-bottom:6px}
+.competitor-list,.journey-list,.leak-list,.plan-list{display:grid;gap:12px}
+.competitor-item,.journey-item,.leak-item,.plan-item{padding:16px;border:1px solid #e8e8ef;border-radius:12px;background:#fff}
+.competitor-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.badge-threat{font-size:.8rem;padding:4px 8px;border-radius:999px;background:#f5f5f5;white-space:nowrap}
+.mini-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+.mini-grid div{background:#fafafa;padding:10px;border-radius:9px}
+@media(max-width:650px){.mini-grid{grid-template-columns:1fr}.competitor-head{flex-direction:column}}
 
 </style>
 
 </head>
 
+
 <body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
 
 <div class="container">
 
-<div class="card">
+<div class="badge">
+CONSULTOR ESTRATÉGICO DIGITAL
+</div>
 
-<h1>RADAR DE OPORTUNIDAD LOCAL™</h1>
+<h1>
+RADAR DE OPORTUNIDAD LOCAL™
+</h1>
 
 <p>
-Introduce los 3 datos de tu negocio.
-Después podrás elegir con qué IA quieres realizar el análisis.
+
+Introduce los datos de tu negocio,
+genera un diagnóstico estratégico,
+descubre dónde puedes estar perdiendo clientes
+y prueba nuevas propuestas de posicionamiento.
+
 </p>
 
-<label>🏢 NEGOCIO + LOCALIDAD</label>
+</div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main>
+
+<div class="container">
+
+
+<!-- =====================================================
+     1. FORMULARIO INICIAL
+===================================================== -->
+
+<div class="card">
+
+<span class="section-label">
+PASO 1
+</span>
+
+<h2>
+Introduce los 3 datos de tu negocio
+</h2>
+
+<label for="negocio">
+🏢 NEGOCIO
+</label>
 
 <input
+type="text"
 id="negocio"
-placeholder="Ej: Clínica Dental Pérez, Valencia"
->
+placeholder="Ejemplo: Clínica Dental Valencia - Valencia">
 
-<label>📍 RADIO DE ACTUACIÓN</label>
 
-<select id="radio">
+<label for="radio">
+📍 RADIO DE ACTUACIÓN
+</label>
 
-<option value="5 km">5 km</option>
-<option value="10 km">10 km</option>
-<option value="20 km">20 km</option>
-<option value="30 km">30 km</option>
+<input
+type="text"
+id="radio"
+placeholder="Ejemplo: 10 km">
 
-</select>
 
-<label>🔗 PRESENCIA DIGITAL</label>
+<label for="presencia">
+🔗 PRESENCIA DIGITAL
+</label>
 
 <textarea
 id="presencia"
-placeholder="Web, Instagram, Google Maps..."
-></textarea>
+placeholder="Pega aquí tu web, Instagram, Google Maps u otros enlaces relevantes."></textarea>
+
 
 <button
 class="primary"
-onclick="generarPrompt()">
+onclick="prepararRadar()">
 
-PREPARAR MI RADAR
+🧠 PREPARAR MI RADAR
 
 </button>
-
-</div>
 
 
 <div
-id="resultado"
+id="errorFormulario"
+class="alert alert-error hidden">
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     2. PROMPT RADAR
+===================================================== -->
+
+<div
+id="seccionPrompt"
 class="card hidden">
 
-<h2>🤖 Elige tu IA</h2>
+<span class="section-label">
+PASO 2
+</span>
+
+<h2>
+🚀 Ejecuta tu investigación estratégica
+</h2>
 
 <p>
-Primero pulsa uno de estos botones.
-El prompt se copiará automáticamente.
-Después pégalo en tu IA.
+
+El prompt se generará automáticamente con los datos introducidos.
+Puedes abrir la IA que prefieras, pegar el prompt y pedir el análisis.
+
 </p>
 
-<button onclick="abrirIA('chatgpt')">
-🤖 ChatGPT
+
+<button
+class="ai-button"
+onclick="abrirIA('chatgpt')">
+
+🤖 Abrir ChatGPT
+
 </button>
 
-<button onclick="abrirIA('gemini')">
-✨ Gemini
+
+<button
+class="ai-button"
+onclick="abrirIA('gemini')">
+
+✨ Abrir Gemini
+
 </button>
 
-<button onclick="abrirIA('claude')">
-🧠 Claude
+
+<button
+class="ai-button"
+onclick="abrirIA('claude')">
+
+🧠 Abrir Claude
+
 </button>
 
-<h3>Tu prompt</h3>
 
-<pre id="prompt"></pre>
+<h3>
+Prompt generado
+</h3>
+
+<pre id="promptRadar"></pre>
+
+
+<div class="alert alert-info">
+
+💡 El prompt se copia automáticamente cuando pulsas uno de los botones de IA.
 
 </div>
 
 </div>
 
+
+
+<!-- =====================================================
+     3. IMPORTAR DIAGNOSTICO
+===================================================== -->
+
+<div
+id="importarDiagnosticoCard"
+class="card hidden">
+
+<span class="section-label">
+PASO 3
+</span>
+
+<h2>
+📥 Importar diagnóstico
+</h2>
+
+<p>
+
+Cuando la IA termine el análisis,
+copia únicamente el JSON final
+desde <strong>{</strong> hasta <strong>}</strong>
+y pégalo aquí.
+
+</p>
+
+
+<textarea
+id="jsonDiagnostico"
+style="min-height:300px;"
+placeholder="Pega aquí el JSON del diagnóstico..."></textarea>
+
+
+<button
+class="primary"
+onclick="importarDiagnostico()">
+
+IMPORTAR DIAGNÓSTICO
+
+</button>
+
+
+<div
+id="errorDiagnostico"
+class="alert alert-error hidden">
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     4. DASHBOARD
+===================================================== -->
+
+<div
+id="dashboard"
+class="hidden">
+
+
+<div class="card">
+
+<button
+class="primary"
+onclick="exportarPDF()">
+
+📄 EXPORTAR DIAGNÓSTICO EN PDF
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<span class="section-label">
+DIAGNÓSTICO ESTRATÉGICO
+</span>
+
+<h2>
+📊 ÍNDICE DE OPORTUNIDAD LOCAL™
+</h2>
+
+
+<div
+id="indiceOportunidad"
+class="big-score">
+
+-
+
+</div>
+
+
+<div class="score-subtitle">
+
+Puntuación estratégica sobre 10
+
+</div>
+
+</div>
+
+
+
+<!-- INSIGHT -->
+
+<div class="card">
+
+<h2>
+🔥 EL INSIGHT QUE PROBABLEMENTE NO ESTÁS VIENDO
+</h2>
+
+<div
+id="insight"
+class="result-box">
+
+-
+
+</div>
+
+<br>
+
+<strong>
+Nivel de certeza:
+</strong>
+
+<span id="nivelCerteza">
+-
+</span>
+
+</div>
+
+
+
+<!-- METRICAS -->
+
+<div class="grid">
+
+
+<div class="metric">
+
+<small>
+🥇 MAYOR VENTAJA
+</small>
+
+<strong id="mayorVentaja">
+-
+</strong>
+
+</div>
+
+
+<div class="metric">
+
+<small>
+🩸 MAYOR FUGA
+</small>
+
+<strong id="mayorFuga">
+-
+</strong>
+
+</div>
+
+
+<div class="metric">
+
+<small>
+⚠️ COMPETIDOR MÁS PELIGROSO
+</small>
+
+<strong id="competidorPeligroso">
+-
+</strong>
+
+</div>
+
+
+<div class="metric">
+
+<small>
+🎯 MOMENTO CRÍTICO
+</small>
+
+<strong id="momentoCritico">
+-
+</strong>
+
+</div>
+
+
+</div>
+
+
+
+<!-- POSICIONAMIENTO -->
+
+<div class="card">
+
+<h2>
+🥊 POSICIONAMIENTO
+</h2>
+
+
+<h3>
+Territorio actual
+</h3>
+
+<div
+id="territorioActual"
+class="result-box">
+
+-
+
+</div>
+
+
+<h3>
+Territorio propuesto
+</h3>
+
+<div
+id="territorioPropuesto"
+class="result-box">
+
+-
+
+</div>
+
+</div>
+
+
+
+
+<!-- COMPETIDORES -->
+<div class="card">
+<h2>🥊 LOS 5 COMPETIDORES QUE REALMENTE IMPORTAN</h2>
+<p>Estos son los negocios que, por coincidencia de cliente, necesidad, visibilidad o propuesta, parecen tener mayor capacidad de disputarte una venta.</p>
+<div id="competidoresLista" class="competitor-list"></div>
+</div>
+
+<!-- MAPA DE POSICIONAMIENTO -->
+<div class="card">
+<h2>🗺️ MAPA DE POSICIONAMIENTO</h2>
+<div id="mapaPosicionamiento" class="competitor-list"></div>
+</div>
+
+<!-- CUSTOMER JOURNEY -->
+<div class="card">
+<h2>🧭 CUSTOMER JOURNEY: DÓNDE SE COMPLICA LA DECISIÓN</h2>
+<div id="customerJourneyLista" class="journey-list"></div>
+</div>
+
+<!-- FUGAS -->
+<div class="card">
+<h2>🩸 LAS 3 POSIBLES FUGAS DE CLIENTES</h2>
+<div id="fugasLista" class="leak-list"></div>
+</div>
+
+<!-- DAFO -->
+<div class="card">
+<h2>🛡️ DAFO COMPETITIVO</h2>
+<div class="mini-grid">
+<div><strong>💪 Fortalezas</strong><ul id="dafoFortalezas"></ul></div>
+<div><strong>🩸 Debilidades</strong><ul id="dafoDebilidades"></ul></div>
+<div><strong>🔥 Oportunidades</strong><ul id="dafoOportunidades"></ul></div>
+<div><strong>⚠️ Amenazas</strong><ul id="dafoAmenazas"></ul></div>
+</div>
+</div>
+
+<!-- PLAN 30 -->
+<div class="card">
+<h2>📅 PLAN DE ATAQUE · 30 DÍAS</h2>
+<div id="plan30Lista" class="plan-list"></div>
+</div>
+
+
+<!-- DECISIONES -->
+
+<div class="card">
+
+<h2>
+🧠 LAS 3 DECISIONES PRIORITARIAS
+</h2>
+
+
+<h3>
+🧠 DECISIÓN #1 — PRIORIDAD MÁXIMA
+</h3>
+
+<div
+id="decision1"
+class="result-box">
+
+-
+
+</div>
+
+
+<h3>
+🧠 DECISIÓN #2
+</h3>
+
+<div
+id="decision2"
+class="result-box">
+
+-
+
+</div>
+
+
+<h3>
+🧠 DECISIÓN #3
+</h3>
+
+<div
+id="decision3"
+class="result-box">
+
+-
+
+</div>
+
+</div>
+
+
+
+<!-- VEREDICTO 60 SEGUNDOS -->
+
+<div class="card">
+
+<h2>
+⚡ TU NEGOCIO EN 60 SEGUNDOS
+</h2>
+
+<div
+id="veredicto60"
+class="result-box">
+
+-
+
+</div>
+
+</div>
+
+
+
+<!-- FRASE -->
+
+<div class="card">
+
+<h2>
+💬 LA FRASE QUE DEBES RECORDAR
+</h2>
+
+<div
+id="fraseFinal"
+class="result-box">
+
+-
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     5. TERRITORY LAB
+===================================================== -->
+
+<div
+id="territoryLab"
+class="card hidden">
+
+<span class="section-label">
+LABORATORIO ESTRATÉGICO
+</span>
+
+<h2>
+🧪 TERRITORY LAB™
+</h2>
+
+<p>
+
+Prueba una nueva propuesta de posicionamiento
+y contrástala con el diagnóstico original.
+
+</p>
+
+
+<h3>
+Posicionamiento actual detectado
+</h3>
+
+<div
+id="labTerritorioActual"
+class="result-box">
+
+-
+
+</div>
+
+
+<label for="nuevoTerritorio">
+🎯 NUEVO TERRITORIO
+</label>
+
+<input
+type="text"
+id="nuevoTerritorio"
+placeholder="Ejemplo: Especialistas en...">
+
+<div class="alert alert-info">💡 Propuesta detectada por la IA. Puedes aceptarla tal cual, editarla o sustituirla.</div>
+
+
+
+<label for="nuevaPromesa">
+💬 NUEVA PROMESA
+</label>
+
+<textarea
+id="nuevaPromesa"
+placeholder="¿Qué promesa concreta harás al cliente?"></textarea>
+<p class="option-label">💡 3 ideas de promesa generadas para este negocio</p><div id="opcionesPromesa" class="ai-options"></div>
+
+
+<label for="nuevaPrueba">
+🔎 PRUEBA
+</label>
+
+<textarea
+id="nuevaPrueba"
+placeholder="¿Qué evidencia demuestra que puedes cumplir esa promesa?"></textarea>
+<p class="option-label">💡 3 ideas de prueba para hacer creíble la propuesta</p><div id="opcionesPrueba" class="ai-options"></div>
+
+
+<label for="nuevaDiferenciacion">
+🥊 DIFERENCIACIÓN
+</label>
+
+<textarea
+id="nuevaDiferenciacion"
+placeholder="¿Por qué sería difícil confundirte con otro competidor?"></textarea>
+<p class="option-label">💡 3 ideas de diferenciación para inspirarte</p><div id="opcionesDiferenciacion" class="ai-options"></div>
+
+
+<button
+class="primary"
+onclick="testearTerritorio()">
+
+🧪 TESTEAR PROPUESTA
+
+</button>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     6. RESULTADO TERRITORY LAB
+===================================================== -->
+
+<div
+id="resultadoTerritory"
+class="card hidden">
+
+<h2>
+📊 RESULTADO DEL TERRITORY LAB™
+</h2>
+
+
+<div class="grid">
+
+
+<div class="metric">
+
+<small>
+POSICIÓN ACTUAL
+</small>
+
+<strong id="scoreActual">
+-
+</strong>
+
+</div>
+
+
+<div class="metric">
+
+<small>
+NUEVA PROPUESTA
+</small>
+
+<strong id="scoreNuevo">
+-
+</strong>
+
+</div>
+
+
+<div class="metric">
+
+<small>
+MEJORA ESTIMADA
+</small>
+
+<strong id="scoreMejora">
+-
+</strong>
+
+</div>
+
+
+</div>
+
+
+<div class="alert alert-info">
+
+⚠️ Esta primera puntuación es una simulación orientativa basada
+en claridad, especificidad, prueba y diferenciación.
+No sustituye la validación estratégica con investigación de mercado.
+
+</div>
+
+
+<hr>
+
+
+<h2>
+🧠 VALIDAR ESTA PROPUESTA CON IA
+</h2>
+
+<p>
+
+La IA contrastará la propuesta con el diagnóstico original
+y, si dispone de búsqueda web, con el mercado y los competidores.
+
+</p>
+
+
+<button
+class="ai-button"
+onclick="validarIA('chatgpt')">
+
+🤖 Validar con ChatGPT
+
+</button>
+
+
+<button
+class="ai-button"
+onclick="validarIA('gemini')">
+
+✨ Validar con Gemini
+
+</button>
+
+
+<button
+class="ai-button"
+onclick="validarIA('claude')">
+
+🧠 Validar con Claude
+
+</button>
+
+
+<h3>
+Prompt de validación
+</h3>
+
+<pre id="promptValidacion"></pre>
+
+</div>
+
+
+
+<!-- =====================================================
+     7. IMPORTAR VALIDACION
+===================================================== -->
+
+<div
+id="importarValidacion"
+class="card hidden">
+
+<h2>
+📥 IMPORTAR VALIDACIÓN DE LA IA
+</h2>
+
+<p>
+
+Cuando la IA termine,
+copia únicamente el JSON final
+y pégalo aquí.
+
+</p>
+
+
+<textarea
+id="jsonValidacion"
+style="min-height:250px;"
+placeholder="Pega aquí el JSON de validación..."></textarea>
+
+
+<button
+class="primary"
+onclick="importarValidacionIA()">
+
+IMPORTAR VALIDACIÓN
+
+</button>
+
+
+<div
+id="errorValidacion"
+class="alert alert-error hidden">
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     8. DASHBOARD VALIDACION
+===================================================== -->
+
+<div
+id="dashboardValidacion"
+class="hidden">
+
+
+<div class="card">
+
+<h2>
+🧠 RESULTADO DE LA VALIDACIÓN ESTRATÉGICA
+</h2>
+
+
+<div
+id="scoreValidacion"
+class="big-score">
+
+-
+
+</div>
+
+
+<div class="score-subtitle">
+
+Puntuación de la propuesta / 10
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h2>
+🔥 VEREDICTO
+</h2>
+
+<div
+id="veredictoValidacion"
+class="result-box">
+
+-
+
+</div>
+
+</div>
+
+
+
+<div class="grid">
+
+
+<div class="metric">
+
+<small>
+💪 FORTALEZA
+</small>
+
+<strong id="fortalezaValidacion">
+-
+</strong>
+
+</div>
+
+
+<div class="metric">
+
+<small>
+⚠️ RIESGO
+</small>
+
+<strong id="riesgoValidacion">
+-
+</strong>
+
+</div>
+
+
+<div class="metric">
+
+<small>
+🥊 DIFERENCIACIÓN
+</small>
+
+<strong id="diferenciacionValidacion">
+-
+</strong>
+
+</div>
+
+
+<div class="metric">
+
+<small>
+🎯 CREDIBILIDAD
+</small>
+
+<strong id="credibilidadValidacion">
+-
+</strong>
+
+</div>
+
+
+<div class="metric">
+
+<small>
+🚀 POTENCIAL
+</small>
+
+<strong id="potencialValidacion">
+-
+</strong>
+
+</div>
+
+
+</div>
+
+
+
+<div class="card">
+
+<h2>
+🧠 QUÉ CAMBIARÍA ANTES DE LANZARLA
+</h2>
+
+<div
+id="recomendacionValidacion"
+class="result-box">
+
+-
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     9. MIS DIAGNOSTICOS
+===================================================== -->
+
+<div class="card">
+
+<h2>
+💾 MIS DIAGNÓSTICOS
+</h2>
+
+<p>
+
+Los diagnósticos se guardan únicamente
+en este navegador y dispositivo.
+
+</p>
+
+
+<div id="listaDiagnosticos">
+
+<p>
+Aún no hay diagnósticos guardados.
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+<div class="container">
+
+<strong>
+RADAR DE OPORTUNIDAD LOCAL™
+</strong>
+
+<br><br>
+
+Herramienta estratégica orientativa.
+La calidad del diagnóstico depende de la información pública disponible
+y de la investigación realizada por la IA seleccionada.
+
+</div>
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
 
 <script>
 
+
+/* =====================================================
+   VARIABLES GLOBALES
+===================================================== */
+
 let promptRadar = "";
 
+let diagnosticoOriginal = null;
 
-function generarPrompt() {
+let diagnosticoActual = null;
 
-const negocio =
-document.getElementById("negocio").value;
+let propuestaTerritory = null;
 
-const radio =
-document.getElementById("radio").value;
-
-const presencia =
-document.getElementById("presencia").value;
+let validacionActual = null;
 
 
-if (!negocio) {
 
-alert("Introduce el nombre del negocio.");
+/* =====================================================
+   UTILIDAD: COPIAR TEXTO
+===================================================== */
 
-return;
+function copiarTexto(texto) {
+
+    if (
+        navigator.clipboard &&
+        window.isSecureContext
+    ) {
+
+        navigator.clipboard
+        .writeText(texto)
+        .catch(function() {});
+
+    }
 
 }
 
 
-promptRadar = `
 
-ACTÚA COMO:
+/* =====================================================
+   1. PREPARAR RADAR
+===================================================== */
 
-CONSULTOR SENIOR DE ESTRATEGIA,
+function prepararRadar() {
+
+    const negocio =
+    document
+    .getElementById("negocio")
+    .value
+    .trim();
+
+
+    const radio =
+    document
+    .getElementById("radio")
+    .value
+    .trim();
+
+
+    const presencia =
+    document
+    .getElementById("presencia")
+    .value
+    .trim();
+
+
+    const error =
+    document
+    .getElementById("errorFormulario");
+
+
+    error.classList.add(
+        "hidden"
+    );
+
+
+    if (
+        !negocio ||
+        !radio ||
+        !presencia
+    ) {
+
+        error.textContent =
+        "⚠️ Completa los 3 datos antes de continuar.";
+
+        error.classList.remove(
+            "hidden"
+        );
+
+        return;
+
+    }
+
+
+    promptRadar = `
+
+ACTÚA COMO UN CONSULTOR SENIOR DE ESTRATEGIA,
 INTELIGENCIA COMPETITIVA,
 POSICIONAMIENTO,
 CUSTOMER EXPERIENCE
 Y MARKETING LOCAL.
 
-Tu misión es realizar una auditoría estratégica profunda.
+Tu misión es realizar una auditoría estratégica profunda
+de este negocio utilizando los datos proporcionados
+e investigando activamente información pública y actual
+si tienes acceso a Internet.
 
-INVESTIGA ACTIVAMENTE información pública actual utilizando las herramientas de búsqueda disponibles.
+NO quiero un informe genérico de marketing.
+
+Quiero que descubras qué está pasando realmente
+en el mercado local de este negocio.
 
 ━━━━━━━━━━━━━━━━━━
-
 MIS 3 DATOS
-
 ━━━━━━━━━━━━━━━━━━
 
-🏢 NEGOCIO:
+1. NEGOCIO:
 
 ${negocio}
 
-
-📍 RADIO DE ACTUACIÓN:
+2. RADIO DE ACTUACIÓN:
 
 ${radio}
 
-
-🔗 PRESENCIA DIGITAL:
+3. PRESENCIA DIGITAL:
 
 ${presencia}
 
-
+━━━━━━━━━━━━━━━━━━
+REGLAS DE INVESTIGACIÓN
 ━━━━━━━━━━━━━━━━━━
 
-REGLAS IMPORTANTES
+Investiga activamente, cuando sea posible:
 
-━━━━━━━━━━━━━━━━━━
+- el negocio;
+- Google y Google Maps;
+- webs;
+- Instagram y otras redes;
+- reseñas;
+- directorios;
+- servicios;
+- precios públicos;
+- promociones;
+- fotografías;
+- horarios;
+- contacto;
+- reserva;
+- reputación;
+- propuesta de valor;
+- posicionamiento;
+- especializaciones;
+- experiencia del cliente;
+- competidores;
+- cualquier dato público relevante.
+
+Prioriza información actual.
 
 No inventes datos.
 
 Distingue siempre entre:
 
-HECHO
-=
-información verificable.
+HECHO = información verificable.
 
-INFERENCIA
-=
-conclusión razonable basada en varias evidencias.
+INFERENCIA = conclusión razonable basada en varias evidencias.
 
-HIPÓTESIS A VALIDAR
-=
-conclusión que no puede demostrarse suficientemente.
+HIPÓTESIS A VALIDAR = conclusión que no puede demostrarse suficientemente.
 
-Investiga:
+Nunca presentes una hipótesis como si fuera un hecho.
 
-- mi negocio
-- competidores
-- webs
-- reseñas
-- servicios
-- precios públicos
-- posicionamiento
-- redes sociales
-- experiencia del cliente
-- reputación
-- presencia digital
+No confundas:
 
-Selecciona EXACTAMENTE 5 competidores relevantes.
+LO QUE EL NEGOCIO DICE DE SÍ MISMO
 
-No elijas simplemente los 5 más cercanos.
+con:
+
+LO QUE EL MERCADO PARECE PERCIBIR.
+
+No confundas:
+
+TENER MÁS SERVICIOS
+
+con:
+
+TENER UNA DIFERENCIACIÓN MÁS FUERTE.
+
+Ni:
+
+TENER MÁS SEGUIDORES
+
+con:
+
+TENER UNA POSICIÓN COMPETITIVA MÁS FUERTE.
+
+━━━━━━━━━━━━━━━━━━
+FASE 1 — DEFINE EL MERCADO REAL
+━━━━━━━━━━━━━━━━━━
+
+Determina:
+
+- qué cliente compra;
+- qué necesidad satisface;
+- qué alternativas tiene;
+- qué negocios pueden disputarle esa decisión.
+
+Diferencia:
+
+COMPETENCIA DIRECTA
+COMPETENCIA SUSTITUTIVA
+COMPETENCIA GEOGRÁFICA
+COMPETENCIA DIGITAL
+
+Explica cuál predomina.
+
+━━━━━━━━━━━━━━━━━━
+FASE 2 — LOS 5 COMPETIDORES REALES
+━━━━━━━━━━━━━━━━━━
+
+Selecciona EXACTAMENTE 5 competidores relevantes
+dentro del radio indicado.
+
+No selecciones automáticamente
+los cinco más cercanos.
+
+Considera:
+
+- proximidad;
+- coincidencia de cliente;
+- coincidencia de necesidad;
+- visibilidad;
+- reputación;
+- volumen de reseñas;
+- propuesta de valor;
+- diferenciación;
+- presencia digital;
+- especialización;
+- capacidad aparente para captar demanda.
+
+Investiga las localidades dentro del radio.
+
+Para cada uno analiza:
+
+- qué promete;
+- por qué puede ganar clientes;
+- qué hace especialmente bien;
+- principal vulnerabilidad.
+
+━━━━━━━━━━━━━━━━━━
+FASE 3 — COMPETIDOR MÁS PELIGROSO
+━━━━━━━━━━━━━━━━━━
+
+Determina cuál es el competidor
+con mayor capacidad para quitar clientes.
+
+Explica:
+
+- por qué puede quitar clientes;
+- qué hace mejor;
+- qué ventaja tiene;
+- qué no debería copiar este negocio;
+- cómo competir inteligentemente.
+
+━━━━━━━━━━━━━━━━━━
+FASE 4 — MAPA DE POSICIONAMIENTO
+━━━━━━━━━━━━━━━━━━
+
+Determina el territorio mental
+que ocupa cada negocio.
+
+Analiza conceptos como:
+
+precio,
+premium,
+confianza,
+rapidez,
+especialización,
+experiencia,
+tradición,
+tecnología,
+cercanía,
+comodidad,
+resultados,
+personalización,
+atención,
+exclusividad,
+innovación,
+autoridad,
+bienestar
+y conveniencia.
+
+Determina:
+
+- batalla competitiva actual;
+- quién parece ganarla;
+- si el terreno está saturado;
+- qué territorio alternativo podría tener sentido.
+
+━━━━━━━━━━━━━━━━━━
+FASE 5 — EL INSIGHT NO OBVIO
+━━━━━━━━━━━━━━━━━━
+
+Busca contradicciones o patrones entre:
+
+- lo que comunica el negocio;
+- lo que valoran los clientes;
+- las reseñas;
+- lo que los competidores están apropiándose;
+- lo que los clientes parecen buscar;
+- lo que nadie comunica;
+- los servicios;
+- la experiencia;
+- el Customer Journey;
+- la reputación digital.
+
+Busca UNA conclusión:
+
+1. no obvia;
+2. específica;
+3. comercialmente relevante;
+4. respaldada por evidencias;
+5. capaz de provocar una decisión.
+
+Si no existe suficiente evidencia,
+indícalo claramente.
+
+━━━━━━━━━━━━━━━━━━
+FASE 6 — HUECO DE MERCADO
+━━━━━━━━━━━━━━━━━━
+
+Busca una oportunidad que combine:
+
+NECESIDAD DEL CLIENTE
++
+DEBILIDAD DE LOS COMPETIDORES
++
+CREDIBILIDAD DEL NEGOCIO.
+
+Distingue entre:
+
+- algo que ya existe;
+- una oportunidad estratégica que merece explorarse.
+
+━━━━━━━━━━━━━━━━━━
+FASE 7 — DAFO COMPETITIVO
+━━━━━━━━━━━━━━━━━━
+
+Máximo:
+
+4 fortalezas.
+4 debilidades.
+4 oportunidades.
+4 amenazas.
+
+Cada punto debe tener una consecuencia estratégica.
+
+━━━━━━━━━━━━━━━━━━
+FASE 8 — CUSTOMER JOURNEY FORENSE
+━━━━━━━━━━━━━━━━━━
 
 Analiza:
 
-1. Mercado real.
-2. Competidores.
-3. Competidor más peligroso.
-4. Mapa de posicionamiento.
-5. Insight que el negocio probablemente no está viendo.
-6. Hueco de mercado.
-7. DAFO competitivo.
-8. Customer Journey.
-9. 3 fugas potenciales de clientes.
-10. Momento de la verdad.
-11. Contramovimiento competitivo.
-12. 3 decisiones estratégicas.
-13. Índice de Oportunidad Local.
-14. Plan de ataque de 30 días.
-15. Veredicto de 60 segundos.
-16. Una frase final memorable.
-17. Diagnóstico final.
+1. Descubrimiento
+2. Primera impresión
+3. Comparación
+4. Confianza
+5. Contacto
+6. Decisión
+7. Experiencia
+8. Postventa
 
-IMPORTANTE:
+Para cada etapa:
 
-No des recomendaciones genéricas.
+QUÉ ESPERA
+→
+QUÉ ENCUENTRA
+→
+FRICCIÓN
+→
+RIESGO
+→
+OPORTUNIDAD
 
-No digas simplemente:
+Cuando algo no pueda comprobarse:
 
-"mejora Instagram"
-
-"haz SEO"
-
-"consigue más seguidores"
-
-DESCUBRE ALGO ESPECÍFICO.
-
-El insight principal debe estar respaldado por evidencias.
-
-Si no existe evidencia suficiente, indica:
-
-"No existe suficiente evidencia pública para afirmar un insight diferencial con alta confianza."
+HIPÓTESIS A VALIDAR.
 
 ━━━━━━━━━━━━━━━━━━
-
-AL FINAL DEL INFORME
-
+FASE 9 — LAS 3 FUGAS
 ━━━━━━━━━━━━━━━━━━
 
-Después del informe completo, genera exactamente este bloque:
+Identifica las tres fugas potencialmente
+más importantes.
 
-RADAR_JSON
+Para cada una:
 
-y devuelve un JSON válido con esta estructura:
+DÓNDE OCURRE
+QUÉ PUEDE ESTAR PASANDO
+EVIDENCIA
+COMPETIDOR QUE PARECE RESOLVERLO MEJOR
+IMPACTO
+ACCIÓN
+
+━━━━━━━━━━━━━━━━━━
+FASE 10 — MOMENTO DE LA VERDAD
+━━━━━━━━━━━━━━━━━━
+
+Determina dónde se puede ganar o perder la venta.
+
+Explica:
+
+- etapa;
+- qué piensa el cliente;
+- qué necesita ver;
+- qué competidor puede estar ganando;
+- qué debería cambiar.
+
+Completa:
+
+"Si solo pudiera cambiar UNA cosa
+durante los próximos 30 días,
+cambiaría ______ porque ______."
+
+━━━━━━━━━━━━━━━━━━
+FASE 11 — SI YO FUERA EL COMPETIDOR
+━━━━━━━━━━━━━━━━━━
+
+Ponte en la piel del competidor más peligroso.
+
+Durante los próximos 90 días:
+
+1.
+2.
+3.
+
+Después define el contramovimiento.
+
+━━━━━━━━━━━━━━━━━━
+FASE 12 — 3 DECISIONES
+━━━━━━━━━━━━━━━━━━
+
+Da únicamente:
+
+DECISIÓN #1 — PRIORIDAD MÁXIMA
+
+DECISIÓN #2
+
+DECISIÓN #3
+
+Explica por qué esas tres
+y no otras.
+
+━━━━━━━━━━━━━━━━━━
+FASE 13 — ÍNDICE DE OPORTUNIDAD LOCAL™
+━━━━━━━━━━━━━━━━━━
+
+Calcula un indicador de 0 a 10 considerando:
+
+- intensidad competitiva;
+- diferenciación;
+- reputación;
+- prueba social;
+- posicionamiento;
+- huecos de mercado;
+- experiencia;
+- capacidad de cambiar la percepción.
+
+Aclara que es:
+
+"un indicador estratégico orientativo,
+no una métrica científica."
+
+━━━━━━━━━━━━━━━━━━
+FASE 14 — PLAN DE ATAQUE 30 DÍAS
+━━━━━━━━━━━━━━━━━━
+
+Da únicamente 7 acciones.
+
+Cada una debe indicar:
+
+- acción concreta;
+- problema;
+- esfuerzo;
+- impacto.
+
+No uses recomendaciones genéricas.
+
+━━━━━━━━━━━━━━━━━━
+FASE 15 — VEREDICTO DE 60 SEGUNDOS
+━━━━━━━━━━━━━━━━━━
+
+Resume:
+
+MAYOR VENTAJA
+MAYOR FUGA
+COMPETIDOR MÁS PELIGROSO
+HUECO DE MERCADO
+MOMENTO CRÍTICO
+BATALLA QUE DEBERÍA DEJAR DE JUGAR
+BATALLA QUE DEBERÍA EMPEZAR A JUGAR
+CAMBIO #1
+
+━━━━━━━━━━━━━━━━━━
+FASE 16 — FRASE FINAL
+━━━━━━━━━━━━━━━━━━
+
+Completa:
+
+"Tu problema no es ________.
+Tu verdadera oportunidad está en ________."
+
+Debe ser específica para este negocio.
+
+━━━━━━━━━━━━━━━━━━
+FASE 17 — DIAGNÓSTICO FINAL
+━━━━━━━━━━━━━━━━━━
+
+Máximo 8 líneas.
+
+Habla directamente al propietario.
+
+Explica:
+
+- dónde está realmente;
+- qué hace bien;
+- dónde es vulnerable;
+- qué oportunidad tiene;
+- qué debería hacer primero.
+
+━━━━━━━━━━━━━━━━━━
+CÓMO DEBE ENTENDERSE EL INFORME
+━━━━━━━━━━━━━━━━━━
+
+Escribe para el propietario de un pequeño o mediano negocio, no para otro consultor.
+Usa lenguaje claro, frases cortas y evita jerga innecesaria.
+Cada conclusión importante debe responder, de forma natural:
+QUÉ ESTÁ PASANDO → POR QUÉ IMPORTA → QUÉ DECISIÓN PODRÍA PROVOCAR.
+No uses palabras técnicas si una expresión cotidiana comunica lo mismo.
+Cuando no exista evidencia suficiente, dilo con claridad.
+
+━━━━━━━━━━━━━━━━━━
+TERRITORY LAB — IDEAS PARA PROBAR
+━━━━━━━━━━━━━━━━━━
+
+Genera un objeto "territoryLab" con:
+- el territorio recomendado;
+- una promesa recomendada;
+- una prueba recomendada;
+- una diferenciación recomendada;
+- exactamente 3 alternativas desarrolladas para promesa;
+- exactamente 3 alternativas desarrolladas para prueba;
+- exactamente 3 alternativas desarrolladas para diferenciación.
+
+Las 3 alternativas deben ser específicas para ESTE negocio y distintas entre sí.
+Deben servir de inspiración práctica: el usuario podrá aceptarlas, editarlas o combinarlas.
+No repitas la misma idea con palabras diferentes.
+
+━━━━━━━━━━━━━━━━━━
+FORMATO FINAL OBLIGATORIO
+━━━━━━━━━━━━━━━━━━
+
+Después de realizar toda la investigación
+y el análisis, devuelve ÚNICAMENTE
+un JSON válido.
+
+No escribas texto antes.
+
+No escribas texto después.
+
+No utilices bloques de código.
+
+Debe empezar con:
+
+{
+
+y terminar con:
+
+}
+
+IMPORTANTE SOBRE LOS CAMPOS ESTRUCTURADOS:
+"competidores" debe contener exactamente 5 objetos con:
+nombre, localidad, tipo, amenaza, promesa, porQueGana, haceBien y vulnerabilidad.
+"mapaPosicionamiento" debe incluir el negocio y los 5 competidores cuando haya evidencia.
+"customerJourney" debe usar objetos con etapa, queEspera, queEncuentra, friccion, riesgo y oportunidad.
+"fugas" debe usar objetos con dondeOcurre, quePuedeEstarPasando, evidencia, competidor, impacto y accion.
+"plan30Dias" debe usar objetos con accion, problema, esfuerzo e impacto.
+
+Utiliza exactamente esta estructura:
 
 {
   "indiceOportunidad": 0,
+  "insight": "",
+  "nivelCerteza": "",
   "mayorVentaja": "",
   "mayorFuga": "",
   "competidorPeligroso": "",
   "territorioActual": "",
   "territorioPropuesto": "",
-  "insight": "",
-  "nivelCerteza": "",
   "momentoCritico": "",
   "decision1": "",
   "decision2": "",
-  "decision3": ""
+  "decision3": "",
+  "veredicto60": "",
+  "fraseFinal": "",
+  "competidores": [],
+  "dafo": {
+    "fortalezas": [],
+    "debilidades": [],
+    "oportunidades": [],
+    "amenazas": []
+  },
+  "customerJourney": [],
+  "fugas": [],
+  "plan30Dias": [],
+  "diagnosticoFinal": "",
+  "mapaPosicionamiento": [
+    {"negocio":"","territorio":"","promesa":"","evidencia":""}
+  ],
+  "territoryLab": {
+    "territorioPropuesto": "",
+    "promesaRecomendada": "",
+    "pruebaRecomendada": "",
+    "diferenciacionRecomendada": "",
+    "opcionesPromesa": ["", "", ""],
+    "opcionesPrueba": ["", "", ""],
+    "opcionesDiferenciacion": ["", "", ""]
+  }
 }
 
 IMPORTANTE:
 
 El JSON debe ser válido.
 
-No añadas comentarios dentro del JSON.
+No uses comentarios.
+
+No añadas comas finales.
+
+No inventes datos.
+
+Cuando una conclusión no tenga evidencia suficiente,
+indica claramente:
+
+"HIPÓTESIS A VALIDAR".
 
 `;
 
-document
-.getElementById("prompt")
-.textContent = promptRadar;
 
-document
-.getElementById("resultado")
-.classList
-.remove("hidden");
+    document
+    .getElementById("promptRadar")
+    .textContent =
+    promptRadar;
 
-navigator.clipboard.writeText(promptRadar);
 
-alert(
-"Tu RADAR está preparado y copiado."
-);
+    document
+    .getElementById("seccionPrompt")
+    .classList
+    .remove("hidden");
+
+
+    document
+    .getElementById("importarDiagnosticoCard")
+    .classList
+    .remove("hidden");
+
+
+    document
+    .getElementById("seccionPrompt")
+    .scrollIntoView({
+        behavior: "smooth"
+    });
 
 }
 
+
+
+/* =====================================================
+   2. ABRIR IA
+===================================================== */
 
 function abrirIA(tipo) {
 
-navigator.clipboard.writeText(promptRadar);
+    if (!promptRadar) {
 
-let url = "";
+        alert(
+            "Primero prepara tu RADAR."
+        );
 
-if (tipo === "chatgpt") {
+        return;
 
-url = "https://chatgpt.com/";
+    }
+
+
+    copiarTexto(
+        promptRadar
+    );
+
+
+    let url = "";
+
+
+    if (tipo === "chatgpt") {
+
+        url =
+        "https://chatgpt.com/";
+
+    }
+
+
+    if (tipo === "gemini") {
+
+        url =
+        "https://gemini.google.com/";
+
+    }
+
+
+    if (tipo === "claude") {
+
+        url =
+        "https://claude.ai/";
+
+    }
+
+
+    window.open(
+        url,
+        "_blank"
+    );
 
 }
 
-if (tipo === "gemini") {
 
-url = "https://gemini.google.com/";
+
+/* =====================================================
+   3. IMPORTAR DIAGNOSTICO
+===================================================== */
+
+function importarDiagnostico() {
+
+    const texto =
+    document
+    .getElementById("jsonDiagnostico")
+    .value
+    .trim();
+
+
+    const error =
+    document
+    .getElementById("errorDiagnostico");
+
+
+    error.classList.add(
+        "hidden"
+    );
+
+
+    if (!texto) {
+
+        error.textContent =
+        "⚠️ Primero pega el JSON del diagnóstico.";
+
+        error.classList.remove(
+            "hidden"
+        );
+
+        return;
+
+    }
+
+
+    let datos;
+
+
+    try {
+
+        datos =
+        JSON.parse(texto);
+
+    }
+
+    catch (e) {
+
+        error.textContent =
+        "❌ El JSON no tiene un formato válido. Copia únicamente el contenido desde { hasta }.";
+
+        error.classList.remove(
+            "hidden"
+        );
+
+        return;
+
+    }
+
+
+    diagnosticoOriginal =
+    datos;
+
+    diagnosticoActual =
+    datos;
+
+
+    renderizarDiagnostico(
+        datos
+    );
+
+
+    guardarDiagnostico();
+
+
+    document
+    .getElementById("dashboard")
+    .classList
+    .remove("hidden");
+
+
+    document
+    .getElementById("territoryLab")
+    .classList
+    .remove("hidden");
+
+
+    document
+    .getElementById("dashboard")
+    .scrollIntoView({
+        behavior: "smooth"
+    });
 
 }
 
-if (tipo === "claude") {
 
-url = "https://claude.ai/";
+
+/* =====================================================
+   4. RENDERIZAR DIAGNOSTICO
+===================================================== */
+
+
+function textoSeguro(v){ return v===undefined||v===null||v==="" ? "-" : String(v); }
+function escaparHTML(v){ return textoSeguro(v).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c])); }
+function listaItems(id, items){
+ const el=document.getElementById(id); if(!el) return;
+ const arr=Array.isArray(items)?items:[];
+ el.innerHTML=arr.length?arr.map(x=>"<li>"+escaparHTML(typeof x==="string"?x:(x.texto||x.nombre||JSON.stringify(x)))+"</li>").join(""):"<li>No hay suficiente evidencia pública.</li>";
+}
+function renderOpciones(id, opciones, targetId){
+ const box=document.getElementById(id); if(!box) return;
+ const arr=Array.isArray(opciones)?opciones.filter(Boolean).slice(0,3):[];
+ box.innerHTML=arr.length?arr.map((x,i)=>'<button type="button" class="ai-option" onclick="usarOpcion('+JSON.stringify(targetId)+','+JSON.stringify(String(x))+', this)"><span class="option-label">OPCIÓN '+(i+1)+'</span>'+escaparHTML(x)+'</button>').join(""):'<div class="result-box">La IA no ha generado opciones suficientes. Puedes escribir la tuya.</div>';
+}
+function usarOpcion(targetId, value, btn){
+ document.getElementById(targetId).value=value;
+ const parent=btn.parentElement; parent.querySelectorAll(".ai-option").forEach(b=>b.classList.remove("selected")); btn.classList.add("selected");
+}
+function renderCompetidores(items){
+ const el=document.getElementById("competidoresLista"); if(!el) return;
+ const arr=Array.isArray(items)?items.slice(0,5):[];
+ el.innerHTML=arr.length?arr.map((c,i)=>{
+  if(typeof c==="string") c={nombre:c};
+  return `<div class="competitor-item"><div class="competitor-head"><div><strong>#${i+1} ${escaparHTML(c.nombre||c.competidor||"Competidor")}</strong><br><small>${escaparHTML(c.localidad||"Localidad no especificada")} · ${escaparHTML(c.tipo||c.tipoCompetencia||"Competencia relevante")}</small></div><span class="badge-threat">${escaparHTML(c.amenaza||"—")}</span></div><div class="mini-grid"><div><strong>Qué promete</strong><br>${escaparHTML(c.promesa)}</div><div><strong>Por qué puede ganar</strong><br>${escaparHTML(c.porQueGana||c.porqueGana||c.ventaja)}</div><div><strong>Lo que hace bien</strong><br>${escaparHTML(c.haceBien)}</div><div><strong>Vulnerabilidad</strong><br>${escaparHTML(c.vulnerabilidad)}</div></div></div>`;
+ }).join(""):'<div class="result-box">No se han devuelto competidores estructurados.</div>';
+}
+function renderMapa(items){
+ const el=document.getElementById("mapaPosicionamiento"); if(!el) return;
+ const arr=Array.isArray(items)?items:[];
+ el.innerHTML=arr.length?arr.map(x=>typeof x==="string"?`<div class="competitor-item">${escaparHTML(x)}</div>`:`<div class="competitor-item"><strong>${escaparHTML(x.negocio||x.nombre)}</strong><br><b>Territorio:</b> ${escaparHTML(x.territorio)}<br><b>Promesa:</b> ${escaparHTML(x.promesa)}<br><b>Evidencia:</b> ${escaparHTML(x.evidencia)}</div>`).join(""):"<div class='result-box'>No hay mapa estructurado.</div>";
+}
+function renderJourney(items){
+ const el=document.getElementById("customerJourneyLista"); if(!el)return;
+ const arr=Array.isArray(items)?items:[];
+ el.innerHTML=arr.length?arr.map(x=>typeof x==="string"?`<div class="journey-item">${escaparHTML(x)}</div>`:`<div class="journey-item"><strong>${escaparHTML(x.etapa)}</strong><div class="mini-grid"><div><b>Qué espera</b><br>${escaparHTML(x.queEspera)}</div><div><b>Qué encuentra</b><br>${escaparHTML(x.queEncuentra)}</div><div><b>Fricción / riesgo</b><br>${escaparHTML(x.friccion)}<br>${escaparHTML(x.riesgo)}</div><div><b>Oportunidad</b><br>${escaparHTML(x.oportunidad)}</div></div></div>`).join(""):"<div class='result-box'>No hay recorrido estructurado.</div>";
+}
+function renderFugas(items){
+ const el=document.getElementById("fugasLista"); if(!el)return;
+ const arr=Array.isArray(items)?items.slice(0,3):[];
+ el.innerHTML=arr.length?arr.map((x,i)=>typeof x==="string"?`<div class="leak-item"><strong>FUGA #${i+1}</strong><br>${escaparHTML(x)}</div>`:`<div class="leak-item"><strong>🩸 FUGA #${i+1} · ${escaparHTML(x.dondeOcurre)}</strong><div class="mini-grid"><div><b>Qué puede pasar</b><br>${escaparHTML(x.quePuedeEstarPasando)}</div><div><b>Evidencia</b><br>${escaparHTML(x.evidencia)}</div><div><b>Competidor</b><br>${escaparHTML(x.competidor)}</div><div><b>Impacto / acción</b><br>${escaparHTML(x.impacto)}<br>${escaparHTML(x.accion)}</div></div></div>`).join(""):"<div class='result-box'>No hay fugas estructuradas.</div>";
+}
+function renderPlan(items){
+ const el=document.getElementById("plan30Lista"); if(!el)return;
+ const arr=Array.isArray(items)?items.slice(0,7):[];
+ el.innerHTML=arr.length?arr.map((x,i)=>typeof x==="string"?`<div class="plan-item"><strong>${i+1}. ${escaparHTML(x)}</strong></div>`:`<div class="plan-item"><strong>${i+1}. ${escaparHTML(x.accion)}</strong><br><small><b>Problema:</b> ${escaparHTML(x.problema)} · <b>Esfuerzo:</b> ${escaparHTML(x.esfuerzo)} · <b>Impacto:</b> ${escaparHTML(x.impacto)}</small></div>`).join(""):"<div class='result-box'>No hay plan estructurado.</div>";
+}
+
+function renderizarDiagnostico(datos) {
+
+    setText(
+        "indiceOportunidad",
+        datos.indiceOportunidad
+    );
+
+    setText(
+        "insight",
+        datos.insight
+    );
+
+    setText(
+        "nivelCerteza",
+        datos.nivelCerteza
+    );
+
+    setText(
+        "mayorVentaja",
+        datos.mayorVentaja
+    );
+
+    setText(
+        "mayorFuga",
+        datos.mayorFuga
+    );
+
+    setText(
+        "competidorPeligroso",
+        datos.competidorPeligroso
+    );
+
+    setText(
+        "territorioActual",
+        datos.territorioActual
+    );
+
+    setText(
+        "territorioPropuesto",
+        datos.territorioPropuesto
+    );
+
+    setText(
+        "momentoCritico",
+        datos.momentoCritico
+    );
+
+    setText(
+        "decision1",
+        datos.decision1
+    );
+
+    setText(
+        "decision2",
+        datos.decision2
+    );
+
+    setText(
+        "decision3",
+        datos.decision3
+    );
+
+    setText(
+        "veredicto60",
+        datos.veredicto60
+    );
+
+    setText(
+        "fraseFinal",
+        datos.fraseFinal
+    );
+
+    setText(
+        "labTerritorioActual",
+        datos.territorioActual
+    );
+
+    // El Territory Lab nace ya conectado con la propuesta del diagnóstico.
+    document.getElementById("nuevoTerritorio").value = datos.territoryLab?.territorioPropuesto || datos.territorioPropuesto || "";
+    document.getElementById("nuevaPromesa").value = datos.territoryLab?.promesaRecomendada || "";
+    document.getElementById("nuevaPrueba").value = datos.territoryLab?.pruebaRecomendada || "";
+    document.getElementById("nuevaDiferenciacion").value = datos.territoryLab?.diferenciacionRecomendada || "";
+    renderOpciones("opcionesPromesa", datos.territoryLab?.opcionesPromesa || [], "nuevaPromesa");
+    renderOpciones("opcionesPrueba", datos.territoryLab?.opcionesPrueba || [], "nuevaPrueba");
+    renderOpciones("opcionesDiferenciacion", datos.territoryLab?.opcionesDiferenciacion || [], "nuevaDiferenciacion");
+
+    renderCompetidores(datos.competidores);
+    renderMapa(datos.mapaPosicionamiento);
+    renderJourney(datos.customerJourney);
+    renderFugas(datos.fugas);
+    renderPlan(datos.plan30Dias);
+    listaItems("dafoFortalezas", datos.dafo?.fortalezas);
+    listaItems("dafoDebilidades", datos.dafo?.debilidades);
+    listaItems("dafoOportunidades", datos.dafo?.oportunidades);
+    listaItems("dafoAmenazas", datos.dafo?.amenazas);
 
 }
 
-window.open(
-url,
-"_blank"
+
+
+/* =====================================================
+   UTILIDAD TEXTO
+===================================================== */
+
+function setText(id, valor) {
+
+    const elemento =
+    document.getElementById(id);
+
+    if (!elemento) {
+        return;
+    }
+
+
+    if (
+        valor === undefined ||
+        valor === null ||
+        valor === ""
+    ) {
+
+        elemento.textContent =
+        "-";
+
+        return;
+
+    }
+
+
+    elemento.textContent =
+    typeof valor === "string"
+    ? valor
+    : String(valor);
+
+}
+
+
+
+/* =====================================================
+   5. TERRITORY LAB
+===================================================== */
+
+function testearTerritorio() {
+
+    const territorio =
+    document
+    .getElementById("nuevoTerritorio")
+    .value
+    .trim();
+
+
+    const promesa =
+    document
+    .getElementById("nuevaPromesa")
+    .value
+    .trim();
+
+
+    const prueba =
+    document
+    .getElementById("nuevaPrueba")
+    .value
+    .trim();
+
+
+    const diferenciacion =
+    document
+    .getElementById("nuevaDiferenciacion")
+    .value
+    .trim();
+
+
+    if (
+        !territorio ||
+        !promesa ||
+        !prueba ||
+        !diferenciacion
+    ) {
+
+        alert(
+            "Completa los 4 campos antes de testear la propuesta."
+        );
+
+        return;
+
+    }
+
+
+    propuestaTerritory = {
+
+        territorio:
+        territorio,
+
+        promesa:
+        promesa,
+
+        prueba:
+        prueba,
+
+        diferenciacion:
+        diferenciacion
+
+    };
+
+
+    let score = 5;
+
+
+    if (
+        territorio.length > 20
+    ) {
+        score += 0.8;
+    }
+
+
+    if (
+        promesa.length > 70
+    ) {
+        score += 0.8;
+    }
+
+
+    if (
+        prueba.length > 50
+    ) {
+        score += 1.2;
+    }
+
+
+    if (
+        diferenciacion.length > 60
+    ) {
+        score += 1.2;
+    }
+
+
+    const palabrasFuertes = [
+
+        "especialista",
+        "especialistas",
+        "único",
+        "unico",
+        "propio",
+        "método",
+        "metodo",
+        "resultado",
+        "resultados",
+        "personalizado",
+        "personalizada",
+        "garantía",
+        "garantia",
+        "evidencia",
+        "demostrable"
+
+    ];
+
+
+    const textoCompleto =
+    (
+        territorio +
+        " " +
+        promesa +
+        " " +
+        prueba +
+        " " +
+        diferenciacion
+    )
+    .toLowerCase();
+
+
+    palabrasFuertes.forEach(
+        function(palabra) {
+
+            if (
+                textoCompleto.includes(
+                    palabra
+                )
+            ) {
+
+                score += 0.15;
+
+            }
+
+        }
+    );
+
+
+    score =
+    Math.min(
+        10,
+        score
+    );
+
+
+    const actual =
+    Number(
+        diagnosticoActual?.indiceOportunidad
+    );
+
+
+    const scoreActual =
+    !isNaN(actual)
+    ? actual
+    : 5;
+
+
+    const mejora =
+    score - scoreActual;
+
+
+    setText(
+        "scoreActual",
+        scoreActual.toFixed(1)
+    );
+
+    setText(
+        "scoreNuevo",
+        score.toFixed(1)
+    );
+
+    setText(
+        "scoreMejora",
+        (
+            mejora >= 0
+            ? "+"
+            : ""
+        )
+        +
+        mejora.toFixed(1)
+    );
+
+
+    document
+    .getElementById("resultadoTerritory")
+    .classList
+    .remove("hidden");
+
+
+    document
+    .getElementById("resultadoTerritory")
+    .scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+
+/* =====================================================
+   6. VALIDAR CON IA
+===================================================== */
+
+function validarIA(tipo) {
+
+    if (!diagnosticoOriginal) {
+
+        alert(
+            "Primero importa el diagnóstico original."
+        );
+
+        return;
+
+    }
+
+
+    if (!propuestaTerritory) {
+
+        alert(
+            "Primero crea y testea una propuesta en Territory Lab."
+        );
+
+        return;
+
+    }
+
+
+    const promptValidacion = `
+
+ACTÚA COMO UN CONSULTOR SENIOR DE ESTRATEGIA,
+POSICIONAMIENTO
+E INTELIGENCIA COMPETITIVA.
+
+Tu misión es evaluar si una nueva propuesta estratégica
+representa una mejora real respecto al posicionamiento
+actual del negocio.
+
+NO des por hecho que la nueva propuesta es mejor.
+
+Busca contradicciones,
+riesgos,
+problemas de credibilidad,
+competidores ya posicionados en ese territorio
+y posibles dificultades de diferenciación.
+
+━━━━━━━━━━━━━━━━━━
+DIAGNÓSTICO ORIGINAL
+━━━━━━━━━━━━━━━━━━
+
+${JSON.stringify(
+diagnosticoOriginal,
+null,
+2
+)}
+
+━━━━━━━━━━━━━━━━━━
+NUEVA PROPUESTA
+━━━━━━━━━━━━━━━━━━
+
+TERRITORIO:
+
+${propuestaTerritory.territorio}
+
+PROMESA:
+
+${propuestaTerritory.promesa}
+
+PRUEBA:
+
+${propuestaTerritory.prueba}
+
+DIFERENCIACIÓN:
+
+${propuestaTerritory.diferenciacion}
+
+━━━━━━━━━━━━━━━━━━
+TU MISIÓN
+━━━━━━━━━━━━━━━━━━
+
+Evalúa:
+
+1. ¿La propuesta es realmente más diferenciada?
+
+2. ¿Es creíble para este negocio?
+
+3. ¿Responde a una necesidad real?
+
+4. ¿Podría competir mejor contra
+los competidores detectados?
+
+5. ¿Existe riesgo de que sea
+una promesa genérica?
+
+6. ¿Qué evidencia necesitaría el negocio?
+
+7. ¿Qué cambiarías antes de lanzarla?
+
+IMPORTANTE:
+
+Si tienes acceso a búsqueda web,
+vuelve a contrastar la propuesta
+con el mercado y los competidores reales.
+
+No inventes datos.
+
+Distingue entre:
+
+HECHO
+
+INFERENCIA
+
+HIPÓTESIS A VALIDAR
+
+━━━━━━━━━━━━━━━━━━
+FORMATO FINAL
+━━━━━━━━━━━━━━━━━━
+
+Devuelve únicamente un JSON válido.
+
+No escribas explicaciones.
+
+No utilices bloques de código.
+
+El resultado debe empezar con:
+
+{
+
+y terminar con:
+
+}
+
+Utiliza exactamente esta estructura:
+
+{
+  "score": 0,
+  "veredicto": "",
+  "fortaleza": "",
+  "riesgo": "",
+  "diferenciacion": "",
+  "credibilidad": "",
+  "potencial": "",
+  "recomendacion": ""
+}
+
+La puntuación debe ser de 0 a 10.
+
+IMPORTANTE:
+
+La puntuación debe reflejar
+una evaluación estratégica razonada.
+
+No premies automáticamente
+una propuesta por ser más larga.
+
+`;
+
+
+    document
+    .getElementById("promptValidacion")
+    .textContent =
+    promptValidacion;
+
+
+    copiarTexto(
+        promptValidacion
+    );
+
+
+    document
+    .getElementById("importarValidacion")
+    .classList
+    .remove("hidden");
+
+
+    let url = "";
+
+
+    if (tipo === "chatgpt") {
+
+        url =
+        "https://chatgpt.com/";
+
+    }
+
+
+    if (tipo === "gemini") {
+
+        url =
+        "https://gemini.google.com/";
+
+    }
+
+
+    if (tipo === "claude") {
+
+        url =
+        "https://claude.ai/";
+
+    }
+
+
+    window.open(
+        url,
+        "_blank"
+    );
+
+}
+
+
+
+/* =====================================================
+   7. IMPORTAR VALIDACION
+===================================================== */
+
+function importarValidacionIA() {
+
+    const texto =
+    document
+    .getElementById("jsonValidacion")
+    .value
+    .trim();
+
+
+    const error =
+    document
+    .getElementById("errorValidacion");
+
+
+    error.classList.add(
+        "hidden"
+    );
+
+
+    if (!texto) {
+
+        error.textContent =
+        "⚠️ Primero pega el JSON de validación.";
+
+        error.classList.remove(
+            "hidden"
+        );
+
+        return;
+
+    }
+
+
+    let datos;
+
+
+    try {
+
+        datos =
+        JSON.parse(texto);
+
+    }
+
+    catch (e) {
+
+        error.textContent =
+        "❌ El formato no es válido. Copia únicamente el JSON.";
+
+        error.classList.remove(
+            "hidden"
+        );
+
+        return;
+
+    }
+
+
+    validacionActual =
+    datos;
+
+
+    setText(
+        "scoreValidacion",
+        datos.score
+    );
+
+    setText(
+        "veredictoValidacion",
+        datos.veredicto
+    );
+
+    setText(
+        "fortalezaValidacion",
+        datos.fortaleza
+    );
+
+    setText(
+        "riesgoValidacion",
+        datos.riesgo
+    );
+
+    setText(
+        "diferenciacionValidacion",
+        datos.diferenciacion
+    );
+
+    setText(
+        "credibilidadValidacion",
+        datos.credibilidad
+    );
+
+    setText(
+        "potencialValidacion",
+        datos.potencial
+    );
+
+    setText(
+        "recomendacionValidacion",
+        datos.recomendacion
+    );
+
+
+    document
+    .getElementById("dashboardValidacion")
+    .classList
+    .remove("hidden");
+
+
+    document
+    .getElementById("dashboardValidacion")
+    .scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+
+/* =====================================================
+   8. GUARDAR DIAGNOSTICO
+===================================================== */
+
+function guardarDiagnostico() {
+
+    if (!diagnosticoActual) {
+        return;
+    }
+
+
+    let diagnosticos = [];
+
+
+    const guardados =
+    localStorage.getItem(
+        "radarDiagnosticos"
+    );
+
+
+    if (guardados) {
+
+        try {
+
+            diagnosticos =
+            JSON.parse(guardados);
+
+        }
+
+        catch (e) {
+
+            diagnosticos = [];
+
+        }
+
+    }
+
+
+    const negocio =
+    document
+    .getElementById("negocio")
+    .value
+    .trim();
+
+
+    const nuevoDiagnostico = {
+
+        id:
+        Date.now(),
+
+        negocio:
+        negocio ||
+        "Diagnóstico sin nombre",
+
+        radio:
+        document
+        .getElementById("radio")
+        .value
+        .trim(),
+
+        presencia:
+        document
+        .getElementById("presencia")
+        .value
+        .trim(),
+
+        fechaCompleta:
+        new Date()
+        .toLocaleString(
+            "es-ES"
+        ),
+
+        datos:
+        diagnosticoActual
+
+    };
+
+
+    diagnosticos.push(
+        nuevoDiagnostico
+    );
+
+
+    localStorage.setItem(
+
+        "radarDiagnosticos",
+
+        JSON.stringify(
+            diagnosticos
+        )
+
+    );
+
+
+    mostrarDiagnosticos();
+
+}
+
+
+
+/* =====================================================
+   9. MOSTRAR DIAGNOSTICOS
+===================================================== */
+
+function mostrarDiagnosticos() {
+
+    const contenedor =
+    document
+    .getElementById(
+        "listaDiagnosticos"
+    );
+
+
+    const guardados =
+    localStorage.getItem(
+        "radarDiagnosticos"
+    );
+
+
+    if (!guardados) {
+
+        contenedor.innerHTML =
+        "<p>Aún no hay diagnósticos guardados.</p>";
+
+        return;
+
+    }
+
+
+    let diagnosticos;
+
+
+    try {
+
+        diagnosticos =
+        JSON.parse(
+            guardados
+        );
+
+    }
+
+    catch (e) {
+
+        contenedor.innerHTML =
+        "<p>No se pudieron cargar los diagnósticos.</p>";
+
+        return;
+
+    }
+
+
+    if (
+        diagnosticos.length === 0
+    ) {
+
+        contenedor.innerHTML =
+        "<p>Aún no hay diagnósticos guardados.</p>";
+
+        return;
+
+    }
+
+
+    contenedor.innerHTML =
+    "";
+
+
+    diagnosticos
+    .slice()
+    .reverse()
+    .forEach(
+        function(item) {
+
+            const bloque =
+            document.createElement(
+                "div"
+            );
+
+
+            bloque.className =
+            "saved-item";
+
+
+            const titulo =
+            document.createElement(
+                "strong"
+            );
+
+            titulo.textContent =
+            item.negocio;
+
+
+            const fecha =
+            document.createElement(
+                "div"
+            );
+
+            fecha.className =
+            "saved-date";
+
+            fecha.textContent =
+            item.fechaCompleta;
+
+
+            const abrir =
+            document.createElement(
+                "button"
+            );
+
+            abrir.className =
+            "secondary";
+
+            abrir.textContent =
+            "ABRIR";
+
+            abrir.onclick =
+            function() {
+
+                abrirDiagnostico(
+                    item.id
+                );
+
+            };
+
+
+            const eliminar =
+            document.createElement(
+                "button"
+            );
+
+            eliminar.className =
+            "danger";
+
+            eliminar.textContent =
+            "ELIMINAR";
+
+            eliminar.onclick =
+            function() {
+
+                eliminarDiagnostico(
+                    item.id
+                );
+
+            };
+
+
+            bloque.appendChild(
+                titulo
+            );
+
+            bloque.appendChild(
+                fecha
+            );
+
+            bloque.appendChild(
+                document.createElement(
+                    "br"
+                )
+            );
+
+            bloque.appendChild(
+                abrir
+            );
+
+            bloque.appendChild(
+                eliminar
+            );
+
+
+            contenedor.appendChild(
+                bloque
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   10. ABRIR DIAGNOSTICO
+===================================================== */
+
+function abrirDiagnostico(id) {
+
+    const guardados =
+    localStorage.getItem(
+        "radarDiagnosticos"
+    );
+
+
+    if (!guardados) {
+        return;
+    }
+
+
+    const diagnosticos =
+    JSON.parse(
+        guardados
+    );
+
+
+    const encontrado =
+    diagnosticos.find(
+        function(item) {
+
+            return item.id === id;
+
+        }
+    );
+
+
+    if (!encontrado) {
+        return;
+    }
+
+
+    diagnosticoActual =
+    encontrado.datos;
+
+    diagnosticoOriginal =
+    encontrado.datos;
+
+
+    document
+    .getElementById("negocio")
+    .value =
+    encontrado.negocio ||
+    "";
+
+
+    document
+    .getElementById("radio")
+    .value =
+    encontrado.radio ||
+    "";
+
+
+    document
+    .getElementById("presencia")
+    .value =
+    encontrado.presencia ||
+    "";
+
+
+    renderizarDiagnostico(
+        encontrado.datos
+    );
+
+
+    document
+    .getElementById("dashboard")
+    .classList
+    .remove("hidden");
+
+
+    document
+    .getElementById("territoryLab")
+    .classList
+    .remove("hidden");
+
+
+    document
+    .getElementById("dashboard")
+    .scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+
+/* =====================================================
+   11. ELIMINAR DIAGNOSTICO
+===================================================== */
+
+function eliminarDiagnostico(id) {
+
+    const confirmar =
+    confirm(
+        "¿Quieres eliminar este diagnóstico?"
+    );
+
+
+    if (!confirmar) {
+        return;
+    }
+
+
+    const guardados =
+    localStorage.getItem(
+        "radarDiagnosticos"
+    );
+
+
+    if (!guardados) {
+        return;
+    }
+
+
+    let diagnosticos =
+    JSON.parse(
+        guardados
+    );
+
+
+    diagnosticos =
+    diagnosticos.filter(
+        function(item) {
+
+            return item.id !== id;
+
+        }
+    );
+
+
+    localStorage.setItem(
+
+        "radarDiagnosticos",
+
+        JSON.stringify(
+            diagnosticos
+        )
+
+    );
+
+
+    mostrarDiagnosticos();
+
+}
+
+
+
+/* =====================================================
+   12. EXPORTAR PDF
+===================================================== */
+
+function exportarPDF() {
+
+    if (!diagnosticoActual) {
+
+        alert(
+            "No hay ningún diagnóstico cargado."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !window.jspdf
+    ) {
+
+        alert(
+            "No se pudo cargar la librería para generar el PDF."
+        );
+
+        return;
+
+    }
+
+
+    const { jsPDF } =
+    window.jspdf;
+
+
+    const doc =
+    new jsPDF({
+
+        unit:
+        "mm",
+
+        format:
+        "a4"
+
+    });
+
+
+    const negocio =
+    document
+    .getElementById("negocio")
+    .value
+    .trim()
+    ||
+    "Mi negocio";
+
+
+    let y = 20;
+
+
+    const margen =
+    15;
+
+    const ancho =
+    180;
+
+
+    function comprobarPagina(
+        espacio
+    ) {
+
+        if (
+            y + espacio > 275
+        ) {
+
+            doc.addPage();
+
+            y = 20;
+
+        }
+
+    }
+
+
+    function titulo(
+        texto
+    ) {
+
+        comprobarPagina(
+            20
+        );
+
+        doc.setFontSize(
+            16
+        );
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+
+        const lineas =
+        doc.splitTextToSize(
+            texto,
+            ancho
+        );
+
+
+        doc.text(
+            lineas,
+            margen,
+            y
+        );
+
+
+        y +=
+        lineas.length * 7 + 5;
+
+    }
+
+
+    function seccion(
+        tituloSeccion,
+        contenido
+    ) {
+
+        if (
+            contenido === undefined ||
+            contenido === null ||
+            contenido === ""
+        ) {
+
+            contenido =
+            "-";
+
+        }
+
+
+        comprobarPagina(
+            15
+        );
+
+
+        doc.setFontSize(
+            11
+        );
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+
+        const tituloLineas =
+        doc.splitTextToSize(
+            tituloSeccion,
+            ancho
+        );
+
+
+        doc.text(
+            tituloLineas,
+            margen,
+            y
+        );
+
+
+        y +=
+        tituloLineas.length * 5 + 2;
+
+
+        doc.setFont(
+            "helvetica",
+            "normal"
+        );
+
+
+        const lineas =
+        doc.splitTextToSize(
+            String(
+                contenido
+            ),
+            ancho
+        );
+
+
+        comprobarPagina(
+            lineas.length * 5 + 8
+        );
+
+
+        doc.text(
+            lineas,
+            margen,
+            y
+        );
+
+
+        y +=
+        lineas.length * 5 + 8;
+
+    }
+
+
+    /* PORTADA */
+
+    titulo(
+        "RADAR DE OPORTUNIDAD LOCAL"
+    );
+
+
+    doc.setFontSize(
+        12
+    );
+
+    doc.setFont(
+        "helvetica",
+        "bold"
+    );
+
+
+    doc.text(
+        negocio,
+        margen,
+        y
+    );
+
+
+    y += 8;
+
+
+    doc.setFont(
+        "helvetica",
+        "normal"
+    );
+
+
+    doc.setFontSize(
+        9
+    );
+
+
+    doc.text(
+        "Diagnóstico estratégico generado mediante análisis asistido por IA.",
+        margen,
+        y
+    );
+
+
+    y += 12;
+
+
+    /* CONTENIDO */
+
+    seccion(
+        "INDICE DE OPORTUNIDAD LOCAL",
+        String(
+            diagnosticoActual.indiceOportunidad ?? "-"
+        ) + " / 10"
+    );
+
+
+    seccion(
+        "EL INSIGHT QUE PROBABLEMENTE NO ESTAS VIENDO",
+        diagnosticoActual.insight
+    );
+
+
+    seccion(
+        "Nivel de certeza",
+        diagnosticoActual.nivelCerteza
+    );
+
+
+    seccion(
+        "MAYOR VENTAJA",
+        diagnosticoActual.mayorVentaja
+    );
+
+
+    seccion(
+        "MAYOR FUGA",
+        diagnosticoActual.mayorFuga
+    );
+
+
+    seccion(
+        "COMPETIDOR MAS PELIGROSO",
+        diagnosticoActual.competidorPeligroso
+    );
+
+
+    seccion(
+        "TERRITORIO ACTUAL",
+        diagnosticoActual.territorioActual
+    );
+
+
+    seccion(
+        "TERRITORIO PROPUESTO",
+        diagnosticoActual.territorioPropuesto
+    );
+
+
+    seccion(
+        "MOMENTO CRITICO",
+        diagnosticoActual.momentoCritico
+    );
+
+
+    seccion(
+        "DECISION #1",
+        diagnosticoActual.decision1
+    );
+
+
+    seccion(
+        "DECISION #2",
+        diagnosticoActual.decision2
+    );
+
+
+    seccion(
+        "DECISION #3",
+        diagnosticoActual.decision3
+    );
+
+
+    seccion(
+        "TU NEGOCIO EN 60 SEGUNDOS",
+        diagnosticoActual.veredicto60
+    );
+
+
+    seccion(
+        "LA FRASE QUE DEBES RECORDAR",
+        diagnosticoActual.fraseFinal
+    );
+
+
+    /* VALIDACION TERRITORY LAB */
+
+    if (
+        validacionActual
+    ) {
+
+        seccion(
+            "VALIDACION TERRITORY LAB - SCORE",
+            String(
+                validacionActual.score ?? "-"
+            ) + " / 10"
+        );
+
+
+        seccion(
+            "VEREDICTO DE LA VALIDACION",
+            validacionActual.veredicto
+        );
+
+
+        seccion(
+            "FORTALEZA DE LA PROPUESTA",
+            validacionActual.fortaleza
+        );
+
+
+        seccion(
+            "PRINCIPAL RIESGO",
+            validacionActual.riesgo
+        );
+
+
+        seccion(
+            "DIFERENCIACION",
+            validacionActual.diferenciacion
+        );
+
+
+        seccion(
+            "CREDIBILIDAD",
+            validacionActual.credibilidad
+        );
+
+
+        seccion(
+            "POTENCIAL",
+            validacionActual.potencial
+        );
+
+
+        seccion(
+            "QUE CAMBIARIA ANTES DE LANZARLA",
+            validacionActual.recomendacion
+        );
+
+    }
+
+
+    /* PIE */
+
+    comprobarPagina(
+        15
+    );
+
+
+    doc.setFontSize(
+        8
+    );
+
+
+    doc.setTextColor(
+        100,
+        100,
+        100
+    );
+
+
+    doc.text(
+        "RADAR DE OPORTUNIDAD LOCAL - Indicador estratégico orientativo, no métrica científica.",
+        margen,
+        y
+    );
+
+
+    doc.save(
+
+        "RADAR-" +
+
+        negocio
+        .replace(
+            /[^a-z0-9]/gi,
+            "_"
+        )
+
+        +
+
+        ".pdf"
+
+    );
+
+}
+
+
+
+/* =====================================================
+   13. CARGAR DIAGNOSTICOS
+===================================================== */
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    function() {
+
+        mostrarDiagnosticos();
+
+    }
+
 );
 
-}
 
 </script>
 
+
 </body>
+
 </html>
