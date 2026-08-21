@@ -3839,124 +3839,292 @@ function exportarPDF() {
     if (!window.jspdf) { alert("No se pudo cargar la librería para generar el PDF."); return; }
 
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({unit:"mm", format:"a4"});
+    const doc = new jsPDF({ unit:"mm", format:"a4", compress:true });
     const negocio = document.getElementById("negocio").value.trim() || "Mi negocio";
-    const margen=15, ancho=180, altoMax=280;
-    let y=18;
+    const margen = 15, ancho = 180, altoMax = 280;
+    let y = 18;
+
+    /*
+      jsPDF con Helvetica estándar no interpreta correctamente emojis ni
+      determinados símbolos Unicode. Por eso el PDF usa texto universal.
+      Esto evita caracteres corruptos como "Ø=ÜÊ" o "Ø>Ý%".
+    */
+    const limpiarPDF = valor => {
+      if (valor === undefined || valor === null) return "";
+      let s = String(valor);
+
+      const reemplazos = {
+        "📊":"", "🔥":"", "🥇":"", "🩸":"", "⚠️":"", "⚠":"",
+        "🎯":"", "📍":"", "🥊":"", "🗺️":"", "🗺":"",
+        "🧭":"", "🛡️":"", "🛡":"", "📅":"", "🧠":"",
+        "⚡":"", "💬":"", "🧪":"", "💪":"", "🚀":"",
+        "🔎":"", "👉":"", "✓":"OK", "✔":"OK",
+        "™":" TM", "→":" - ", "•":"-"
+      };
+
+      Object.entries(reemplazos).forEach(([a,b]) => {
+        s = s.split(a).join(b);
+      });
+
+      // Elimina cualquier emoji o símbolo Unicode no compatible con las
+      // fuentes estándar del PDF, conservando letras españolas y puntuación.
+      s = s.replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "");
+      s = s.replace(/[\u200B-\u200D\uFE0E\uFE0F]/g, "");
+      s = s.replace(/[^\x20-\xFF\n\r\t]/g, "");
+      s = s.replace(/[ \t]{2,}/g, " ");
+      s = s.replace(/\n{3,}/g, "\n\n");
+      return s.trim();
+    };
 
     const normalizar = v => {
-      if(v===undefined || v===null || v==="") return "-";
-      if(typeof v === "string" || typeof v === "number" || typeof v === "boolean") return String(v);
-      if(Array.isArray(v)) return v.map(normalizar).filter(x=>x && x!=="-").join("\n• ");
-      if(typeof v === "object") return formatoItemDafo(v);
-      return String(v);
+      if (v === undefined || v === null || v === "") return "-";
+      if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") {
+        return limpiarPDF(v);
+      }
+      if (Array.isArray(v)) {
+        return v.map(normalizar).filter(x => x && x !== "-").join("\n- ");
+      }
+      if (typeof v === "object") return limpiarPDF(formatoItemDafo(v));
+      return limpiarPDF(String(v));
     };
-    const nuevaPagina = espacio => { if(y+espacio>altoMax){ doc.addPage(); y=18; } };
+
+    const nuevaPagina = espacio => {
+      if (y + espacio > altoMax) {
+        doc.addPage();
+        y = 18;
+      }
+    };
+
     const escribir = (texto, size=10, bold=false, indent=0, gap=4) => {
-      const contenido=normalizar(texto);
-      doc.setFont("helvetica", bold?"bold":"normal"); doc.setFontSize(size);
-      const lines=doc.splitTextToSize(contenido, ancho-indent);
-      nuevaPagina(lines.length*(size>=15?6.5:5)+gap+2);
-      doc.text(lines,margen+indent,y); y+=lines.length*(size>=15?6.5:5)+gap;
+      const contenido = normalizar(texto) || "-";
+      doc.setFont("helvetica", bold ? "bold" : "normal");
+      doc.setFontSize(size);
+      doc.setTextColor(20, 20, 20);
+
+      const lines = doc.splitTextToSize(contenido, ancho - indent);
+      const lineHeight = size >= 15 ? 6.5 : 5;
+      const altura = Math.max(lineHeight, lines.length * lineHeight);
+
+      // Si un bloque es largo, lo divide correctamente entre páginas.
+      let restantes = [...lines];
+      while (restantes.length) {
+        const espacioDisponible = altoMax - y;
+        const maxLineas = Math.max(1, Math.floor(espacioDisponible / lineHeight));
+        const bloque = restantes.splice(0, maxLineas);
+        doc.text(bloque, margen + indent, y);
+        y += bloque.length * lineHeight;
+
+        if (restantes.length) {
+          doc.addPage();
+          y = 18;
+          doc.setFont("helvetica", bold ? "bold" : "normal");
+          doc.setFontSize(size);
+          doc.setTextColor(20, 20, 20);
+        }
+      }
+      y += gap;
     };
-    const titulo = t => { nuevaPagina(15); y+=2; escribir(t,15,true,0,6); };
-    const subtitulo = t => escribir(t,11,true,0,3);
-    const campo = (label,value) => { subtitulo(label); escribir(value,9,false,2,5); };
+
+    const titulo = t => {
+      nuevaPagina(15);
+      y += 2;
+      escribir(limpiarPDF(t), 15, true, 0, 6);
+    };
+    const subtitulo = t => escribir(limpiarPDF(t), 11, true, 0, 3);
+    const campo = (label, value) => {
+      subtitulo(label);
+      escribir(value, 9, false, 2, 5);
+    };
     const lista = (items, formatter) => {
-      const arr=Array.isArray(items)?items:[];
-      if(!arr.length){ escribir("No hay suficiente información estructurada.",9,false,2,4); return; }
-      arr.forEach((it,i)=>escribir("• "+(formatter?formatter(it,i):normalizar(it)),9,false,2,3));
+      const arr = Array.isArray(items) ? items : [];
+      if (!arr.length) {
+        escribir("No hay suficiente información estructurada.", 9, false, 2, 4);
+        return;
+      }
+      arr.forEach((it, i) => {
+        escribir("- " + (formatter ? formatter(it, i) : normalizar(it)), 9, false, 2, 3);
+      });
     };
 
     // PORTADA
-    titulo("RADAR DE OPORTUNIDAD LOCAL™");
-    escribir(negocio,13,true,0,3);
-    escribir("Informe estratégico completo · Generado con investigación asistida por IA",9,false,0,8);
+    titulo("RADAR DE OPORTUNIDAD LOCAL");
+    escribir(negocio, 13, true, 0, 3);
+    escribir("Informe estratégico completo - Generado con investigación asistida por IA", 9, false, 0, 8);
 
     // RESUMEN
-    titulo("📊 ÍNDICE DE OPORTUNIDAD LOCAL™");
-    escribir((diagnosticoActual.indiceOportunidad ?? "-")+" / 10",20,true,0,6);
-    titulo("🔥 EL INSIGHT QUE PROBABLEMENTE NO ESTÁS VIENDO");
-    campo("Insight",diagnosticoActual.insight); campo("Nivel de certeza",diagnosticoActual.nivelCerteza);
-    titulo("RESUMEN ESTRATÉGICO");
-    campo("🥇 Mayor ventaja",diagnosticoActual.mayorVentaja); campo("🩸 Mayor fuga",diagnosticoActual.mayorFuga);
-    campo("⚠️ Competidor más peligroso",diagnosticoActual.competidorPeligroso); campo("🎯 Momento crítico",diagnosticoActual.momentoCritico);
+    titulo("INDICE DE OPORTUNIDAD LOCAL");
+    escribir((diagnosticoActual.indiceOportunidad ?? "-") + " / 10", 20, true, 0, 6);
+    titulo("EL INSIGHT QUE PROBABLEMENTE NO ESTAS VIENDO");
+    campo("Insight", diagnosticoActual.insight);
+    campo("Nivel de certeza", diagnosticoActual.nivelCerteza);
+
+    titulo("RESUMEN ESTRATEGICO");
+    campo("Mayor ventaja", diagnosticoActual.mayorVentaja);
+    campo("Mayor fuga", diagnosticoActual.mayorFuga);
+    campo("Competidor mas peligroso", diagnosticoActual.competidorPeligroso);
+    campo("Momento critico", diagnosticoActual.momentoCritico);
 
     // POSICIONAMIENTO
-    titulo("📍 POSICIONAMIENTO");
-    campo("Territorio actual",diagnosticoActual.territorioActual); campo("Nuevo territorio propuesto",diagnosticoActual.territorioPropuesto);
+    titulo("POSICIONAMIENTO");
+    campo("Territorio actual", diagnosticoActual.territorioActual);
+    campo("Nuevo territorio propuesto", diagnosticoActual.territorioPropuesto);
 
     // COMPETIDORES
-    titulo("🥊 LOS 5 COMPETIDORES QUE REALMENTE IMPORTAN");
-    lista(diagnosticoActual.competidores,(c,i)=>{
-      if(typeof c==="string") return "#"+(i+1)+" · "+c;
-      return "#"+(i+1)+" · "+(c.nombre||c.competidor||"Competidor")+" | "+(c.localidad||"Localidad no especificada")+" | Tipo: "+(c.tipo||c.tipoCompetencia||"-")+" | Amenaza: "+(c.amenaza||"-")+"\nPromesa: "+normalizar(c.promesa)+"\nPor qué puede ganar: "+normalizar(c.porQueGana||c.porqueGana||c.ventaja)+"\nLo que hace bien: "+normalizar(c.haceBien)+"\nVulnerabilidad: "+normalizar(c.vulnerabilidad);
+    titulo("LOS 5 COMPETIDORES QUE REALMENTE IMPORTAN");
+    lista(diagnosticoActual.competidores, (c, i) => {
+      if (typeof c === "string") return "#" + (i + 1) + " - " + c;
+      return "#" + (i + 1) + " - " + (c.nombre || c.competidor || "Competidor") +
+        " | " + (c.localidad || "Localidad no especificada") +
+        " | Tipo: " + (c.tipo || c.tipoCompetencia || "-") +
+        " | Amenaza: " + (c.amenaza || "-") +
+        "\nPromesa: " + normalizar(c.promesa) +
+        "\nPor que puede ganar: " + normalizar(c.porQueGana || c.porqueGana || c.ventaja) +
+        "\nLo que hace bien: " + normalizar(c.haceBien) +
+        "\nVulnerabilidad: " + normalizar(c.vulnerabilidad);
     });
 
     // MAPA
-    titulo("🗺️ MAPA DE POSICIONAMIENTO");
-    lista(diagnosticoActual.mapaPosicionamiento,(x)=> typeof x==="string"?x:(normalizar(x.negocio||x.nombre)+" | Territorio: "+normalizar(x.territorio)+" | Promesa: "+normalizar(x.promesa)+" | Evidencia: "+normalizar(x.evidencia)));
+    titulo("MAPA DE POSICIONAMIENTO");
+    lista(diagnosticoActual.mapaPosicionamiento, x =>
+      typeof x === "string" ? x :
+      normalizar(x.negocio || x.nombre) +
+      " | Territorio: " + normalizar(x.territorio) +
+      " | Promesa: " + normalizar(x.promesa) +
+      " | Evidencia: " + normalizar(x.evidencia)
+    );
 
-    // JOURNEY
-    titulo("🧭 CUSTOMER JOURNEY: DÓNDE SE COMPLICA LA DECISIÓN");
-    lista(diagnosticoActual.customerJourney,(x)=> typeof x==="string"?x:(normalizar(x.etapa)+"\nQué espera: "+normalizar(x.queEspera)+"\nQué encuentra: "+normalizar(x.queEncuentra)+"\nFricción: "+normalizar(x.friccion)+"\nRiesgo: "+normalizar(x.riesgo)+"\nOportunidad: "+normalizar(x.oportunidad)));
+    // CUSTOMER JOURNEY
+    titulo("CUSTOMER JOURNEY: DONDE SE COMPLICA LA DECISION");
+    lista(diagnosticoActual.customerJourney, x =>
+      typeof x === "string" ? x :
+      normalizar(x.etapa) +
+      "\nQue espera: " + normalizar(x.queEspera) +
+      "\nQue encuentra: " + normalizar(x.queEncuentra) +
+      "\nFriccion: " + normalizar(x.friccion) +
+      "\nRiesgo: " + normalizar(x.riesgo) +
+      "\nOportunidad: " + normalizar(x.oportunidad)
+    );
 
     // FUGAS
-    titulo("🩸 LAS 3 POSIBLES FUGAS DE CLIENTES");
-    lista((diagnosticoActual.fugas||[]).slice(0,3),(x,i)=> typeof x==="string"?"FUGA #"+(i+1)+" · "+x:("FUGA #"+(i+1)+"\nDónde ocurre: "+normalizar(x.dondeOcurre)+"\nQué puede estar pasando: "+normalizar(x.quePuedeEstarPasando)+"\nEvidencia: "+normalizar(x.evidencia)+"\nCompetidor que parece resolverlo mejor: "+normalizar(x.competidor)+"\nImpacto: "+normalizar(x.impacto)+"\nAcción: "+normalizar(x.accion)));
+    titulo("LAS 3 POSIBLES FUGAS DE CLIENTES");
+    lista((diagnosticoActual.fugas || []).slice(0, 3), (x, i) =>
+      typeof x === "string" ? "FUGA #" + (i + 1) + " - " + x :
+      "FUGA #" + (i + 1) +
+      "\nDonde ocurre: " + normalizar(x.dondeOcurre) +
+      "\nQue puede estar pasando: " + normalizar(x.quePuedeEstarPasando) +
+      "\nEvidencia: " + normalizar(x.evidencia) +
+      "\nCompetidor que parece resolverlo mejor: " + normalizar(x.competidor) +
+      "\nImpacto: " + normalizar(x.impacto) +
+      "\nAccion: " + normalizar(x.accion)
+    );
 
     // DAFO
-    titulo("🛡️ DAFO COMPETITIVO");
-    const d=diagnosticoActual.dafo||{};
-    [ ["💪 FORTALEZAS",d.fortalezas],["🩸 DEBILIDADES",d.debilidades],["🔥 OPORTUNIDADES",d.oportunidades],["⚠️ AMENAZAS",d.amenazas] ].forEach(([t,items])=>{ subtitulo(t); lista(items,x=>formatoItemDafo(x)); y+=2; });
+    titulo("DAFO COMPETITIVO");
+    const d = diagnosticoActual.dafo || {};
+    [
+      ["FORTALEZAS", d.fortalezas],
+      ["DEBILIDADES", d.debilidades],
+      ["OPORTUNIDADES", d.oportunidades],
+      ["AMENAZAS", d.amenazas]
+    ].forEach(([t, items]) => {
+      subtitulo(t);
+      lista(items, x => formatoItemDafo(x));
+      y += 2;
+    });
 
     // PLAN 30
-    titulo("📅 PLAN DE ATAQUE · 30 DÍAS");
-    lista((diagnosticoActual.plan30Dias||[]).slice(0,7),(x,i)=> typeof x==="string"?(i+1)+". "+x:(i+1)+". "+normalizar(x.accion)+"\nProblema que resuelve: "+normalizar(x.problema)+" | Esfuerzo: "+normalizar(x.esfuerzo)+" | Impacto: "+normalizar(x.impacto));
+    titulo("PLAN DE ATAQUE - 30 DIAS");
+    lista((diagnosticoActual.plan30Dias || []).slice(0, 7), (x, i) =>
+      typeof x === "string" ? (i + 1) + ". " + x :
+      (i + 1) + ". " + normalizar(x.accion) +
+      "\nProblema que resuelve: " + normalizar(x.problema) +
+      " | Esfuerzo: " + normalizar(x.esfuerzo) +
+      " | Impacto: " + normalizar(x.impacto)
+    );
 
     // DECISIONES + VEREDICTO
-    titulo("🧠 LAS 3 DECISIONES PRIORITARIAS");
-    campo("DECISIÓN #1",diagnosticoActual.decision1); campo("DECISIÓN #2",diagnosticoActual.decision2); campo("DECISIÓN #3",diagnosticoActual.decision3);
-    titulo("⚡ TU NEGOCIO EN 60 SEGUNDOS"); escribir(diagnosticoActual.veredicto60,10,false,0,5);
-    titulo("💬 LA FRASE QUE DEBES RECORDAR"); escribir(diagnosticoActual.fraseFinal,12,true,0,6);
+    titulo("LAS 3 DECISIONES PRIORITARIAS");
+    campo("DECISION #1", diagnosticoActual.decision1);
+    campo("DECISION #2", diagnosticoActual.decision2);
+    campo("DECISION #3", diagnosticoActual.decision3);
+
+    titulo("TU NEGOCIO EN 60 SEGUNDOS");
+    escribir(diagnosticoActual.veredicto60, 10, false, 0, 5);
+
+    titulo("LA FRASE QUE DEBES RECORDAR");
+    escribir(diagnosticoActual.fraseFinal, 12, true, 0, 6);
 
     // TERRITORY LAB
-    titulo("🧪 TERRITORY LAB™");
-    const tl=diagnosticoActual.territoryLab||{};
-    const actualTerritorio=document.getElementById("labTerritorioActual")?.textContent || diagnosticoActual.territorioActual;
-    const nuevoTerritorio=document.getElementById("nuevoTerritorio")?.value.trim() || propuestaTerritory?.territorio || tl.territorioPropuesto || diagnosticoActual.territorioPropuesto;
-    const nuevaPromesa=document.getElementById("nuevaPromesa")?.value.trim() || propuestaTerritory?.promesa || tl.promesaRecomendada;
-    const nuevaPrueba=document.getElementById("nuevaPrueba")?.value.trim() || propuestaTerritory?.prueba || tl.pruebaRecomendada;
-    const nuevaDiferenciacion=document.getElementById("nuevaDiferenciacion")?.value.trim() || propuestaTerritory?.diferenciacion || tl.diferenciacionRecomendada;
-    campo("Territorio actual",actualTerritorio); campo("NUEVO TERRITORIO",nuevoTerritorio);
-    campo("NUEVA PROMESA",nuevaPromesa); subtitulo("3 opciones de promesa propuestas por la IA"); lista(tl.opcionesPromesa,x=>normalizar(x));
-    campo("PRUEBA",nuevaPrueba); subtitulo("3 opciones de prueba propuestas por la IA"); lista(tl.opcionesPrueba,x=>normalizar(x));
-    campo("DIFERENCIACIÓN",nuevaDiferenciacion); subtitulo("3 opciones de diferenciación propuestas por la IA"); lista(tl.opcionesDiferenciacion,x=>normalizar(x));
+    titulo("TERRITORY LAB");
+    const tl = diagnosticoActual.territoryLab || {};
+    const actualTerritorio = document.getElementById("labTerritorioActual")?.textContent || diagnosticoActual.territorioActual;
+    const nuevoTerritorio = document.getElementById("nuevoTerritorio")?.value.trim() ||
+      propuestaTerritory?.territorio || tl.territorioPropuesto || diagnosticoActual.territorioPropuesto;
+    const nuevaPromesa = document.getElementById("nuevaPromesa")?.value.trim() ||
+      propuestaTerritory?.promesa || tl.promesaRecomendada;
+    const nuevaPrueba = document.getElementById("nuevaPrueba")?.value.trim() ||
+      propuestaTerritory?.prueba || tl.pruebaRecomendada;
+    const nuevaDiferenciacion = document.getElementById("nuevaDiferenciacion")?.value.trim() ||
+      propuestaTerritory?.diferenciacion || tl.diferenciacionRecomendada;
+
+    campo("Territorio actual", actualTerritorio);
+    campo("NUEVO TERRITORIO", nuevoTerritorio);
+
+    campo("NUEVA PROMESA", nuevaPromesa);
+    subtitulo("3 opciones de promesa propuestas por la IA");
+    lista(tl.opcionesPromesa, x => normalizar(x));
+
+    campo("PRUEBA", nuevaPrueba);
+    subtitulo("3 opciones de prueba propuestas por la IA");
+    lista(tl.opcionesPrueba, x => normalizar(x));
+
+    campo("DIFERENCIACION", nuevaDiferenciacion);
+    subtitulo("3 opciones de diferenciacion propuestas por la IA");
+    lista(tl.opcionesDiferenciacion, x => normalizar(x));
 
     // RESULTADO DEL TERRITORY LAB
     titulo("RESULTADO DEL NUEVO TERRITORY LAB");
-    const scoreActual=document.getElementById("scoreActual")?.textContent;
-    const scoreNuevo=document.getElementById("scoreNuevo")?.textContent;
-    const scoreMejora=document.getElementById("scoreMejora")?.textContent;
-    if(propuestaTerritory || scoreNuevo){ campo("Índice actual",scoreActual); campo("Índice de la nueva propuesta",scoreNuevo); campo("Variación estimada",scoreMejora); }
-    else escribir("La propuesta todavía no ha sido testeada.",9,false,0,5);
+    const scoreActual = document.getElementById("scoreActual")?.textContent;
+    const scoreNuevo = document.getElementById("scoreNuevo")?.textContent;
+    const scoreMejora = document.getElementById("scoreMejora")?.textContent;
 
-    // VALIDACIÓN / VEREDICTO
-    titulo("VEREDICTO DE LA PROPUESTA");
-    if(validacionActual){
-      campo("Score de validación",(validacionActual.score??"-")+" / 10"); campo("Veredicto",validacionActual.veredicto);
-      campo("Fortaleza de la propuesta",validacionActual.fortaleza); campo("Principal riesgo",validacionActual.riesgo);
-      campo("Diferenciación",validacionActual.diferenciacion); campo("Credibilidad",validacionActual.credibilidad);
-      campo("Potencial",validacionActual.potencial); campo("Qué cambiaría antes de lanzarla",validacionActual.recomendacion);
+    if (propuestaTerritory || scoreNuevo) {
+      campo("Indice actual", scoreActual);
+      campo("Indice de la nueva propuesta", scoreNuevo);
+      campo("Variacion estimada", scoreMejora);
     } else {
-      escribir("Aún no se ha realizado una validación con IA. El resultado mostrado corresponde al test interno del Territory Lab.",9,false,0,5);
+      escribir("La propuesta todavia no ha sido testeada.", 9, false, 0, 5);
     }
 
-    titulo("DIAGNÓSTICO FINAL"); escribir(diagnosticoActual.diagnosticoFinal,10,false,0,5);
-    nuevaPagina(10); doc.setFontSize(8); doc.setTextColor(100,100,100); doc.text("RADAR DE OPORTUNIDAD LOCAL™ · Indicador estratégico orientativo, no una métrica científica.",margen,y);
-    doc.save("RADAR-"+negocio.replace(/[^a-z0-9]/gi,"_")+".pdf");
-}
+    // VALIDACION / VEREDICTO
+    titulo("VEREDICTO DE LA PROPUESTA");
+    if (validacionActual) {
+      campo("Score de validacion", (validacionActual.score ?? "-") + " / 10");
+      campo("Veredicto", validacionActual.veredicto);
+      campo("Fortaleza de la propuesta", validacionActual.fortaleza);
+      campo("Principal riesgo", validacionActual.riesgo);
+      campo("Diferenciacion", validacionActual.diferenciacion);
+      campo("Credibilidad", validacionActual.credibilidad);
+      campo("Potencial", validacionActual.potencial);
+      campo("Que cambiaria antes de lanzarla", validacionActual.recomendacion);
+    } else {
+      escribir("Aun no se ha realizado una validacion con IA. El resultado mostrado corresponde al test interno del Territory Lab.", 9, false, 0, 5);
+    }
 
+    titulo("DIAGNOSTICO FINAL");
+    escribir(diagnosticoActual.diagnosticoFinal, 10, false, 0, 5);
+
+    nuevaPagina(10);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(8);
+    doc.setTextColor(100, 100, 100);
+    doc.text(
+      "RADAR DE OPORTUNIDAD LOCAL - Indicador estrategico orientativo, no una metrica cientifica.",
+      margen, y
+    );
+
+    doc.save("RADAR-" + negocio.replace(/[^a-z0-9]/gi, "_") + ".pdf");
+}
 
 /* =====================================================
    13. CARGAR DIAGNOSTICOS
