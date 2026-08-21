@@ -1,0 +1,1 @@
+# radar-oportunidad-local
