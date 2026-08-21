@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RADAR DE OPORTUNIDAD LOCAL™</title>
+
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 14px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.primary {
+  background: black;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
+
+pre {
+  white-space: pre-wrap;
+  background: #111;
+  color: #00ff99;
+  padding: 15px;
+  border-radius: 10px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>RADAR DE OPORTUNIDAD LOCAL™</h1>
+
+<p>
+Introduce los 3 datos de tu negocio.
+Después podrás elegir con qué IA quieres realizar el análisis.
+</p>
+
+<label>🏢 NEGOCIO + LOCALIDAD</label>
+
+<input
+id="negocio"
+placeholder="Ej: Clínica Dental Pérez, Valencia"
+>
+
+<label>📍 RADIO DE ACTUACIÓN</label>
+
+<select id="radio">
+
+<option value="5 km">5 km</option>
+<option value="10 km">10 km</option>
+<option value="20 km">20 km</option>
+<option value="30 km">30 km</option>
+
+</select>
+
+<label>🔗 PRESENCIA DIGITAL</label>
+
+<textarea
+id="presencia"
+placeholder="Web, Instagram, Google Maps..."
+></textarea>
+
+<button
+class="primary"
+onclick="generarPrompt()">
+
+PREPARAR MI RADAR
+
+</button>
+
+</div>
+
+
+<div
+id="resultado"
+class="card hidden">
+
+<h2>🤖 Elige tu IA</h2>
+
+<p>
+Primero pulsa uno de estos botones.
+El prompt se copiará automáticamente.
+Después pégalo en tu IA.
+</p>
+
+<button onclick="abrirIA('chatgpt')">
+🤖 ChatGPT
+</button>
+
+<button onclick="abrirIA('gemini')">
+✨ Gemini
+</button>
+
+<button onclick="abrirIA('claude')">
+🧠 Claude
+</button>
+
+<h3>Tu prompt</h3>
+
+<pre id="prompt"></pre>
+
+</div>
+
+</div>
+
+
+<script>
+
+let promptRadar = "";
+
+
+function generarPrompt() {
+
+const negocio =
+document.getElementById("negocio").value;
+
+const radio =
+document.getElementById("radio").value;
+
+const presencia =
+document.getElementById("presencia").value;
+
+
+if (!negocio) {
+
+alert("Introduce el nombre del negocio.");
+
+return;
+
+}
+
+
+promptRadar = `
+
+ACTÚA COMO:
+
+CONSULTOR SENIOR DE ESTRATEGIA,
+INTELIGENCIA COMPETITIVA,
+POSICIONAMIENTO,
+CUSTOMER EXPERIENCE
+Y MARKETING LOCAL.
+
+Tu misión es realizar una auditoría estratégica profunda.
+
+INVESTIGA ACTIVAMENTE información pública actual utilizando las herramientas de búsqueda disponibles.
+
+━━━━━━━━━━━━━━━━━━
+
+MIS 3 DATOS
+
+━━━━━━━━━━━━━━━━━━
+
+🏢 NEGOCIO:
+
+${negocio}
+
+
+📍 RADIO DE ACTUACIÓN:
+
+${radio}
+
+
+🔗 PRESENCIA DIGITAL:
+
+${presencia}
+
+
+━━━━━━━━━━━━━━━━━━
+
+REGLAS IMPORTANTES
+
+━━━━━━━━━━━━━━━━━━
+
+No inventes datos.
+
+Distingue siempre entre:
+
+HECHO
+=
+información verificable.
+
+INFERENCIA
+=
+conclusión razonable basada en varias evidencias.
+
+HIPÓTESIS A VALIDAR
+=
+conclusión que no puede demostrarse suficientemente.
+
+Investiga:
+
+- mi negocio
+- competidores
+- webs
+- reseñas
+- servicios
+- precios públicos
+- posicionamiento
+- redes sociales
+- experiencia del cliente
+- reputación
+- presencia digital
+
+Selecciona EXACTAMENTE 5 competidores relevantes.
+
+No elijas simplemente los 5 más cercanos.
+
+Analiza:
+
+1. Mercado real.
+2. Competidores.
+3. Competidor más peligroso.
+4. Mapa de posicionamiento.
+5. Insight que el negocio probablemente no está viendo.
+6. Hueco de mercado.
+7. DAFO competitivo.
+8. Customer Journey.
+9. 3 fugas potenciales de clientes.
+10. Momento de la verdad.
+11. Contramovimiento competitivo.
+12. 3 decisiones estratégicas.
+13. Índice de Oportunidad Local.
+14. Plan de ataque de 30 días.
+15. Veredicto de 60 segundos.
+16. Una frase final memorable.
+17. Diagnóstico final.
+
+IMPORTANTE:
+
+No des recomendaciones genéricas.
+
+No digas simplemente:
+
+"mejora Instagram"
+
+"haz SEO"
+
+"consigue más seguidores"
+
+DESCUBRE ALGO ESPECÍFICO.
+
+El insight principal debe estar respaldado por evidencias.
+
+Si no existe evidencia suficiente, indica:
+
+"No existe suficiente evidencia pública para afirmar un insight diferencial con alta confianza."
+
+━━━━━━━━━━━━━━━━━━
+
+AL FINAL DEL INFORME
+
+━━━━━━━━━━━━━━━━━━
+
+Después del informe completo, genera exactamente este bloque:
+
+RADAR_JSON
+
+y devuelve un JSON válido con esta estructura:
+
+{
+  "indiceOportunidad": 0,
+  "mayorVentaja": "",
+  "mayorFuga": "",
+  "competidorPeligroso": "",
+  "territorioActual": "",
+  "territorioPropuesto": "",
+  "insight": "",
+  "nivelCerteza": "",
+  "momentoCritico": "",
+  "decision1": "",
+  "decision2": "",
+  "decision3": ""
+}
+
+IMPORTANTE:
+
+El JSON debe ser válido.
+
+No añadas comentarios dentro del JSON.
+
+`;
+
+document
+.getElementById("prompt")
+.textContent = promptRadar;
+
+document
+.getElementById("resultado")
+.classList
+.remove("hidden");
+
+navigator.clipboard.writeText(promptRadar);
+
+alert(
+"Tu RADAR está preparado y copiado."
+);
+
+}
+
+
+function abrirIA(tipo) {
+
+navigator.clipboard.writeText(promptRadar);
+
+let url = "";
+
+if (tipo === "chatgpt") {
+
+url = "https://chatgpt.com/";
+
+}
+
+if (tipo === "gemini") {
+
+url = "https://gemini.google.com/";
+
+}
+
+if (tipo === "claude") {
+
+url = "https://claude.ai/";
+
+}
+
+window.open(
+url,
+"_blank"
+);
+
+}
+
+</script>
+
+</body>
+</html>
